@@ -32,8 +32,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void initView(){
         edtAccount = (EditText)findViewById(R.id.input_account);
         edtPassword = (EditText)findViewById(R.id.input_password);
-//        btnSignUp = (Button)findViewById(R.id.btn_sign_up);
-
+        btnSignUp = (Button)findViewById(R.id.btn_sign_up);
+        tvLogin = (TextView)findViewById(R.id.link_login);
+        btnSignUp.setOnClickListener(this);
+        tvLogin.setOnClickListener(this);
     }
 
     @Override

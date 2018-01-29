@@ -25,6 +25,9 @@
         <activity android:name=".activity.RegisterActivity">
 
         </activity>
+        <activity android:name=".activity.NewStoryActivity">
+
+        </activity>
     </application>
 
 </manifest>

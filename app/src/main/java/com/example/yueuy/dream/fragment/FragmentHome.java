@@ -28,7 +28,6 @@ public class FragmentHome extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        mTextView = getActivity().findViewById(R.id.tv_home);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.yueuy.dream.activity;
 
+import android.content.Intent;
 import android.media.Image;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,ViewPager.OnPageChangeListener{
+    private boolean check = true;
     private Toolbar mToolbar;
     private ImageButton btnHome;
     private ImageButton btnNewStory;
@@ -38,12 +40,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView(){
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_main);
         btnHome = (ImageButton)findViewById(R.id.btn_home_page);
         btnUser = (ImageButton) findViewById(R.id.btn_user_page);
-        btnNewStory = (ImageButton) findViewById(R.id.new_story);
-
+        btnNewStory = (ImageButton) findViewById(R.id.btn_new_story);
+        btnHome.setOnClickListener(this);
+        btnUser.setOnClickListener(this);
+        btnNewStory.setOnClickListener(this);
         mToolbar.setTitle(R.string.app_name);
+        mToolbar.setTitleMarginStart(25);
+
     }
 
     private void initPage(){
@@ -58,6 +64,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mViewPager.setOnClickListener(this);
 
     }
+
+    private void newStory(){
+        Intent i = new Intent(MainActivity.this,NewStoryActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    private void toLogin(){
+
+        if (check){
+
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(i);
+            finish();
+        }
+    }
+
 
     @Override
     public void onPageScrollStateChanged(int arg0){
@@ -81,12 +104,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.btn_home_page:
                 mViewPager.setCurrentItem(0);
+
                 break;
             case R.id.btn_user_page:
                 mViewPager.setCurrentItem(1);
+                toLogin();
                 break;
-            case R.id.new_story:
-
+            case R.id.btn_new_story:
+                newStory();
                 break;
             default:
                 break;

@@ -47,10 +47,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void initView(){
         edtAccount = (EditText)findViewById(R.id.edt_account);
         edtPassword = (EditText)findViewById(R.id.edt_password);
-//        btnLogin = (Button)findViewById(R.id.btn_login);
-//        mRememberPwd = (CheckBox)findViewById(R.id.check_remember_password);
-//        tvNewAccount = (TextView)findViewById(R.id.link_create_account);
-//        tvForgetPwd = (TextView)findViewById(R.id.link_forget_password);
+        btnLogin = (Button)findViewById(R.id.btn_login);
+        mRememberPwd = (CheckBox)findViewById(R.id.check_remember_password);
+        tvNewAccount = (TextView)findViewById(R.id.link_create_account);
+        tvForgetPwd = (TextView)findViewById(R.id.link_forget_password);
+
+        btnLogin.setOnClickListener(this);
+        tvNewAccount.setOnClickListener(this);
+        tvForgetPwd.setOnClickListener(this);
         checkRemember();
     }
 
