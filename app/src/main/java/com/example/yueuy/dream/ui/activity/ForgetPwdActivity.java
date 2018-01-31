@@ -1,4 +1,4 @@
-package com.example.yueuy.dream.activity;
+package com.example.yueuy.dream.ui.activity;
 
 /**
  * Created by yueuy on 18-1-29.

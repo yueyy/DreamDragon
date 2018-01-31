@@ -1,4 +1,4 @@
-package com.example.yueuy.dream.activity;
+package com.example.yueuy.dream.ui.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yueuy.dream.R;
-import com.example.yueuy.dream.UserDataManager;
+import com.example.yueuy.dream.net.OkHttpManager;
+import com.example.yueuy.dream.net.api.UserApi;
 
 
 /**
@@ -27,14 +28,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CheckBox mRememberPwd ;
     private TextView tvNewAccount;
     private TextView tvForgetPwd;
-    private UserDataManager mManager;
-    private String token;
-    private String expires_in;
-    private String sns;
 
-
-    private SharedPreferences mPreferences;
-    private SharedPreferences.Editor mEditor;
 
     @Override
     public void onCreate(Bundle savesInstanceState){
@@ -55,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogin.setOnClickListener(this);
         tvNewAccount.setOnClickListener(this);
         tvForgetPwd.setOnClickListener(this);
-        checkRemember();
+
     }
 
     @Override
@@ -67,11 +61,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.link_create_account:
                 register();
                 break;
-            case R.id.check_remember_password:
-
-                break;
-            case R.id.link_forget_password:
-                forgetPassword();
+//            case R.id.link_forget_password:
+//                forgetPassword();
             default:
                 break;
 
@@ -79,46 +70,60 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void login(){
-        if (checkPassword()){
-            Intent i = new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(i);
-            Toast.makeText(getBaseContext(),"success",Toast.LENGTH_SHORT).show();
-            finish();
-        }else{
-
+        String account = edtAccount.getText().toString();
+        String password = edtPassword.getText().toString();
+        if ( account.isEmpty() || password.isEmpty() ){
+            Toast.makeText(getBaseContext(),"请检查输入!",Toast.LENGTH_SHORT).show();
+        }else if (mRememberPwd.isChecked()){
+            SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("username",account);
+            editor.putString("password",password);
+            editor.apply();
+        }else {
+            if (checkPassword()) {
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(i);
+                Toast.makeText(getBaseContext(), "登录成功", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(getBaseContext(),"ERROR!",Toast.LENGTH_SHORT).show();
+            }
         }
-    }
-
-    private boolean checkRemember(){
-        boolean remember = false;
-
-        return remember;
     }
 
 
     private boolean checkPassword(){
         String account = edtAccount.getText().toString();
         String password = edtPassword.getText().toString();
-        mPreferences = getPreferences(MODE_PRIVATE);
-        mEditor = mPreferences.edit();
-        boolean result = mManager.login(account,password);
-        if (result) {
-            mEditor.putString("account", account);
-            mEditor.putString("password", password);
-            mEditor.apply();
-        }
+        OkHttpManager manager = new OkHttpManager();
+        UserApi userApi = manager.getRetrofit().create(UserApi.class);
+//        userApi.signin(new User(account,password)).enqueue(new Callback<UserId>() {
+//            @Override
+//            public void onResponse(Call<UserId> call, Response<UserId> response) {
+//                if (response.isSuccessful()){
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<UserId> call, Throwable t) {
+//
+//            }
+//        });
         return true;
     }
 
     private void register(){
-        Intent i = new Intent(LoginActivity.this,RegisterActivity.class);
+        Intent i = new Intent(LoginActivity.this,SignUpActivity.class);
         startActivity(i);
         finish();
     }
 
-    private void forgetPassword(){
-        Intent i = new Intent(LoginActivity.this,ForgetPwdActivity.class);
-        startActivity(i);
-        finish();
-    }
+//    private void forgetPassword(){
+//        Intent i = new Intent(LoginActivity.this,ForgetPwdActivity.class);
+//        startActivity(i);
+//        finish();
+//    }
 }

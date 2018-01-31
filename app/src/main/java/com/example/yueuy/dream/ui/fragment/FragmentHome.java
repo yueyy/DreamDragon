@@ -1,4 +1,4 @@
-package com.example.yueuy.dream.fragment;
+package com.example.yueuy.dream.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.yueuy.dream.R;
-
-import retrofit2.http.Path;
+import com.youth.banner.Banner;
 
 /**
  * Created by yueuy on 18-1-29.

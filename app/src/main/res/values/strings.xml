@@ -18,4 +18,13 @@
     <string name="title">标题</string>
     <string name="title_ranking_list">排行榜</string>
     <string name="btn_more_story">更多</string>
+    <string name="tv_user_join">发起故事</string>
+    <string name="tv_user_start">参与故事</string>
+    <string name="tv_user_like">获得点赞</string>
+    <string name="tv_user_words">我的字数</string>
+    <string name="btn_start_story">我发起的故事</string>
+    <string name="btn_join_story">我参与的故事</string>
+    <string name="btn_hot_story">我的热点故事</string>
+    <string name="btn_setting">设置</string>
+    <string name="search_view">搜索</string>
 </resources>

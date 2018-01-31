@@ -2,40 +2,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+    android:background="@color/colorBackground">
 
-    <com.youth.banner.Banner
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_home"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-    </com.youth.banner.Banner>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/btn_more_story"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_more_story"
-            android:background="#0000"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_ranking_list"
-            android:textSize="24sp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"/>
+            android:text="梦境接龙"
+            android:textColor="@color/colorUser"/>
+    </android.support.v7.widget.Toolbar>
 
-    </RelativeLayout>
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="@string/search_view">
 
-    <android.support.v7.widget.RecyclerView
+    </android.support.v7.widget.SearchView>
+
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+    </com.youth.banner.Banner>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/story_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
 
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>
