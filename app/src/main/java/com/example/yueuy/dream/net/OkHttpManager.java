@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class OkHttpManager {
-    private static final String BASE_URL = "";
+    private static final String BASE_URL = "http://120.78.194.125:2000/api/";
 
     public OkHttpClient okHttpClient(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

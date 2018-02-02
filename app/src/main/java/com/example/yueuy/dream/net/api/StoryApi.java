@@ -32,8 +32,7 @@ public interface StoryApi {
 
     @GET("/api/story/{storyid}/")
     Call<StoryData> showStory(@Path("storyid") int storyid,
-                              @QueryMap Map<String,Object> map,
-                              @Header("auth") String auth);
+                              @QueryMap Map<String,Object> map);
 
     @GET("/api/story/{storyid}/like/")
     Call<StoryLike> showLikeNum(@Path("storyid") int storyid,

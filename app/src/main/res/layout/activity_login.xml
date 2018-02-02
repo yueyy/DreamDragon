@@ -13,37 +13,45 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <TextView
-            android:text="@string/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="26sp"/>
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_login"
+            android:scaleType="center"
+            android:tint="@color/colorWhite"
+            android:src="@drawable/login_icon"
+            />
 
         <android.support.design.widget.TextInputLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:textColorHint="@color/colorHint">
             <EditText
                 android:id="@+id/edt_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_id"
-                android:textColorHint="@color/colorPrimaryDark"/>
+                android:textColorHint="@color/colorHint"
+                android:textColor="@color/colorPrimaryDark"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:textColorHint="@color/colorHint">
             <EditText
                 android:id="@+id/edt_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:hint="@string/hint_password"
-                android:textColorHint="@color/colorPrimaryDark"/>
+                android:textColorHint="@color/colorHint"
+                android:textColor="@color/colorPrimaryDark"/>
         </android.support.design.widget.TextInputLayout>
 
         <CheckBox
@@ -59,13 +67,13 @@
             android:layout_width="match_parent"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
-            android:layout_marginStart="60sp"
-            android:layout_marginEnd="60sp"
+            android:layout_marginStart="30sp"
+            android:layout_marginEnd="30sp"
             android:gravity="center"
             android:text="@string/btn_login"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/shape_login"
             android:textSize="18sp"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/colorWhite"/>
 
         <TextView
             android:id="@+id/link_create_account"

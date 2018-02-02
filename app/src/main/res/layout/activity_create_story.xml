@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+              android:background="@color/colorBackground">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_edit"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorWhite">
         <ImageButton
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
@@ -21,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/colorUser"
+            android:textColor="@color/colorMain"
             android:text="@string/tv_user_join"
             android:textSize="20sp"/>
         <ImageButton
@@ -35,40 +36,78 @@
             android:layout_gravity="end"/>
     </android.support.v7.widget.Toolbar>
 
-    <LinearLayout
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:orientation="vertical"
+        android:background="@drawable/shape_main_word"
+        app:counterEnabled="true"
+        app:counterMaxLength="100"
+        android:layout_marginTop="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp">
-        <EditText
-            android:id="@+id/edt_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:hint="@string/title"
-            android:textColorHint="@color/colorPrimaryDark"
-            />
-        <EditText
+
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/edt_content"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
             android:gravity="start"
             android:textColor="@color/colorPrimaryDark"
-            />
-    </LinearLayout>
+            android:background="@null"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:maxLength="100"
+            app:counterEnabled="true"
+            app:counterMaxLength="100"
+        />
+    </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.75"
-        android:background="@color/colorPrimary"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp">
-    </LinearLayout>
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_main_word"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_word_recycle"
+                android:layout_width="match_parent"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                >
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/edt_keyword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/shape_keyword"
+                android:hint="@string/story_keyword"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:textColorHint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:maxLength="5"
+                android:maxLines="1"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="70dp"
+              android:orientation="vertical"
+    android:background="@drawable/shape_main_word">
+
+
+    <TextView
+        android:id="@+id/random_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:maxLines="2"
+        android:text="content"
+        android:maxLength="30"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="5dp"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/random_keyword_first"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/story_keyword"/>
+        <TextView
+            android:id="@+id/random_keyword_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/story_keyword"/>
+
+        <ImageButton
+            android:id="@+id/random_like_img"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:tint="@color/colorRed"
+            android:layout_marginStart="20dp"
+            android:background="#0000"
+            android:src="@drawable/ic_hot"/>
+
+        <TextView
+            android:id="@+id/random_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="5dp"
+            android:text="5"/>
+
+        <ImageButton
+            android:id="@+id/random_talking_img"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:scaleType="fitCenter"
+            android:tint="@color/colorMain"
+            android:layout_marginStart="5dp"
+            android:background="#0000"
+            android:src="@drawable/tab_home"/>
+
+        <TextView
+            android:id="@+id/random_talking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="5dp"
+            android:text="7"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

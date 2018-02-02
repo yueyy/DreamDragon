@@ -6,19 +6,44 @@
               android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_user"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:layout_gravity="center"
+            android:textColor="@color/colorMain"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/user_login"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:gravity="center"
+            android:layout_marginEnd="16dp"
+            android:text="@string/btn_login"
+            android:textColor="@color/colorMain"/>
+    </android.support.v7.widget.Toolbar>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/colorUser">
+        android:background="@color/colorMain">
         <ImageView
             android:id="@+id/user_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="90sp"
-            android:src="@color/colorPrimary"/>
+            android:layout_marginTop="60sp"
+            android:src="@color/colorWhite"/>
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:layout_width="70sp"
@@ -28,7 +53,7 @@
             app:riv_oval="true"
             app:riv_border_width="2dp"
             android:src="@drawable/test"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="30dp"
             android:layout_centerHorizontal="true"
             />
         <TextView
@@ -46,6 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/user_name"
+            android:textColor="@color/colorSub"
             android:text="self-introduction"/>
 
     </RelativeLayout>
@@ -55,7 +81,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.5"
         android:orientation="horizontal"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorWhite"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp">
         <LinearLayout
@@ -68,7 +94,7 @@
                 android:id="@+id/user_join_story"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1"
+                android:text="0"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
@@ -86,7 +112,7 @@
                 android:id="@+id/user_start_story"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2"
+                android:text="0"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
@@ -105,7 +131,7 @@
                 android:id="@+id/user_like"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="3"
+                android:text="0"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
@@ -124,7 +150,7 @@
                 android:id="@+id/user_all_words"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="4"
+                android:text="0"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
@@ -137,91 +163,98 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5"
+        android:layout_weight="2"
         android:orientation="vertical"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp">
         <LinearLayout
+            android:id="@+id/ll_my_start_story"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorWhite"
             android:layout_marginTop="16sp"
             android:clickable="true">
             <ImageView
                 android:id="@+id/user_icon_start"
-                android:layout_width="20sp"
-                android:layout_height="20sp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:src="@drawable/ic_blur_on_black_24dp"/>
+                android:src="@drawable/write"
+                android:tint="@color/colorMain"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/btn_start_story"
+                android:textSize="18sp"
                 android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"/>
+                android:textColor="@color/colorSub"/>
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_my_join_story"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginTop="3dp"
             android:orientation="horizontal"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorWhite"
             android:clickable="true">
             <ImageView
                 android:id="@+id/user_icon_join"
-                android:layout_width="20sp"
-                android:layout_height="20sp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:src="@drawable/ic_blur_on_black_24dp"/>
+                android:src="@drawable/ic_add"
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/btn_join_story"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"/>
+                android:textColor="@color/colorSub"
+                android:textSize="18sp"
+                android:layout_marginStart="5dp"/>
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_my_hot_story"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginTop="3dp"
             android:orientation="horizontal"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorWhite"
             android:clickable="true">
             <ImageView
                 android:id="@+id/user_icon_hot"
-                android:layout_width="20sp"
-                android:layout_height="20sp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:src="@drawable/ic_blur_on_black_24dp"/>
+                android:src="@drawable/hot"
+                android:tint="@color/colorMain"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/btn_hot_story"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"/>
+                android:textSize="18sp"
+                android:textColor="@color/colorSub"
+                android:layout_marginStart="5dp"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_setting"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginTop="3dp"
             android:orientation="horizontal"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorWhite"
             android:clickable="true">
             <ImageView
                 android:id="@+id/user_icon_setting"
@@ -229,14 +262,15 @@
                 android:layout_height="20sp"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:src="@drawable/ic_blur_on_black_24dp"/>
+                android:src="@drawable/setting"
+                android:tint="@color/colorMain"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:textColor="@color/colorSub"
                 android:text="@string/btn_setting"/>
 
         </LinearLayout>

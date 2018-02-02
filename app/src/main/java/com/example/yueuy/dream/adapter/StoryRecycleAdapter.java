@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.yueuy.dream.R;
@@ -39,23 +40,31 @@ public class StoryRecycleAdapter extends RecyclerView.Adapter<StoryRecycleAdapte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent ,int viewType){
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_story_rank,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_story_random,parent,false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder,int position){
-        viewHolder.title.setText(mStoryData.get(position).getTitle());
+        viewHolder.content.setText(mStoryData.get(position).getStory());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView title;
+        TextView content,keywordFirst,keywordSecond,likenum,talkingnum;
+        ImageButton like,talking;
+
 
         public ViewHolder(View itemView){
             super(itemView);
-            title = itemView.findViewById(R.id.title);
+            content = itemView.findViewById(R.id.random_content);
+            keywordFirst = itemView.findViewById(R.id.random_keyword_first);
+            keywordSecond = itemView.findViewById(R.id.random_keyword_second);
+            likenum = itemView.findViewById(R.id.random_like);
+            talkingnum = itemView.findViewById(R.id.random_talking);
+            like = itemView.findViewById(R.id.random_like_img);
+            talking = itemView.findViewById(R.id.random_talking_img);
         }
     }
 }

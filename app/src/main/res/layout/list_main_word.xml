@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/main_word_page"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/shape_button"
+        android:clickable="true"/>
+
+</LinearLayout>

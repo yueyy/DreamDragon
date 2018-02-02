@@ -5,21 +5,12 @@ package com.example.yueuy.dream.data.story;
  */
 
 public class StoryData {
-    private String title;
     private String story;
     private String picture;
     private int storyId;
     private int likenum;
     private String username;
     private String storyc;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public String getStory() {
         return story;

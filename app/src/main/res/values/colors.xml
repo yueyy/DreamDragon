@@ -3,6 +3,11 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FDA831</color>
-    <color name="colorUser">#f2994a</color>
+    <color name="colorMain">#f2994a</color>
+    <color name="colorWhite">#ffffff</color>
     <color name="colorBackground">#F7F6E7</color>
+    <color name="colorHint">#C1C0B9</color>
+    <color name="colorSub">#6f6f6f</color>
+    <color name="colorLight">#ffe578</color>
+    <color name="colorRed">#fd2e2e</color>
 </resources>
