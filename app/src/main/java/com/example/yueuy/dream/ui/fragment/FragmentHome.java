@@ -12,11 +12,18 @@ import android.widget.TextView;
 import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.adapter.StoryRecycleAdapter;
 import com.example.yueuy.dream.data.story.StoryData;
+import com.example.yueuy.dream.data.story.StoryRandom;
+import com.example.yueuy.dream.net.ServiceGenerator;
+import com.example.yueuy.dream.net.api.StoryService;
 import com.example.yueuy.dream.util.SpaceItemDecoration;
 import com.muxistudio.cardbanner.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yueuy on 18-1-29.
@@ -28,7 +35,8 @@ public class FragmentHome extends Fragment {
     private StoryRecycleAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mManager;
-    private List<StoryData> mStoryData;
+    private List<StoryRandom> mStoryData;
+
     private List<ViewHolder<Integer>> mHolders = new ArrayList<>();
     private List<Integer> resIdList = new ArrayList<>();
     private Integer[] resIds = {R.drawable.a,R.drawable.b,R.drawable.c};
@@ -54,21 +62,37 @@ public class FragmentHome extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    private List<StoryData> initData(){
-        List<StoryData> data = new ArrayList<>();
+    private List<StoryRandom> initData(){
+        List<StoryData> test = new ArrayList<>();
         StoryData story = new StoryData();
         story.setStory("在很久很久以前");
-        data.add(story);
+        test.add(story);
         StoryData storya = new StoryData();
         storya.setStory("有一个人啊");
-        data.add(storya);
+        test.add(storya);
         StoryData storyb = new StoryData();
         story.setStory("他想吃鸡");
-        data.add(storyb);
+        test.add(storyb);
 
+        mStoryData = new ArrayList<>();
+        StoryService storyService = ServiceGenerator.createService(StoryService.class);
+        storyService.showRandom().enqueue(new Callback<StoryRandom>() {
+            @Override
+            public void onResponse(Call<StoryRandom> call, Response<StoryRandom> response) {
+                StoryRandom random = response.body();
+                mStoryData.add(random);
+            }
 
+            @Override
+            public void onFailure(Call<StoryRandom> call, Throwable t) {
 
-        //        for (int i = 0; i < 3; i++) {
+            }
+        });
+        return mStoryData;
+    }
+
+}
+//        for (int i = 0; i < 3; i++) {
 //            ViewHolder<Integer> viewHolder = new ViewHolder<Integer>() {
 //                @Override
 //                public View getView(Context context, Integer integer) {
@@ -85,23 +109,3 @@ public class FragmentHome extends Fragment {
 //        mBanner.setAutoScroll(true);
 //        mBanner.setScrollDuration(3000);
 //        mBanner.setScrollTime(1000);
-
-//    private List<StoryData> initData(){
-//        OkHttpManager manager = new OkHttpManager();
-//        StoryService storyApi = manager.getRetrofit().create(StoryService.class);
-//        storyApi.showRank().enqueue(new Callback<StoryRank>() {
-//            @Override
-//            public void onResponse(Call<StoryRank> call, Response<StoryRank> response) {
-//                StoryRank rank = response.body();
-//
-//            }
-//            @Override
-//            public void onFailure(Call<StoryRank> call, Throwable t) {
-//
-//            }
-//        });
-//    }
-        return data;
-    }
-
-}

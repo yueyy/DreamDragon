@@ -13,7 +13,7 @@
 
     </android.support.v7.widget.Toolbar>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/story_talking_recycle"
+        android:id="@+id/story_all_recycle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"

@@ -5,15 +5,26 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yueuy.dream.R;
+import com.example.yueuy.dream.data.Constants;
+import com.example.yueuy.dream.data.user.UserData;
+import com.example.yueuy.dream.net.ServiceGenerator;
+import com.example.yueuy.dream.net.api.UserService;
 import com.example.yueuy.dream.ui.activity.LoginActivity;
 import com.example.yueuy.dream.ui.activity.StoryListActivity;
+import com.example.yueuy.dream.util.SharedPreferencesUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yueuy on 18-1-29.
@@ -21,6 +32,7 @@ import com.example.yueuy.dream.ui.activity.StoryListActivity;
 
 public class FragmentUser extends Fragment{
 
+    private static final String TAG = "fragmentUser";
     private Toolbar mToolbar;
     private TextView mLogin;
     private TextView mUser, mIntro,mStartNum,mJoinNum,mLikeNum,mWords;
@@ -28,6 +40,7 @@ public class FragmentUser extends Fragment{
     private LinearLayout mJoin;
     private LinearLayout mHot;
     private LinearLayout mSetting;
+    private SharedPreferencesUtils mPreferencesUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -39,7 +52,7 @@ public class FragmentUser extends Fragment{
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-
+        initData();
     }
 
     private void initView(View view){
@@ -76,19 +89,33 @@ public class FragmentUser extends Fragment{
         });
     }
 
-//    private void initData(View v){
-//        OkHttpManager manager = new OkHttpManager();
-//        UserService userApi = manager.getRetrofit().create(UserService.class);
-//        userApi.
-//        userApi.showMyData()
-//    }
+    private void initData(){
+        mPreferencesUtils = new SharedPreferencesUtils();
+        String token = mPreferencesUtils.getUser("token");
+        if (token!=null) {
+            String username = mPreferencesUtils.getUser("username");
+            mUser.setText(username);
+            UserService userService = ServiceGenerator.createService(UserService.class);
+            userService.showMyData(token).enqueue(new Callback<UserData>() {
+                @Override
+                public void onResponse(Call<UserData> call, Response<UserData> response) {
+                    if (response.isSuccessful()) {
+                        UserData userData = response.body();
+                        mJoinNum.setText(userData.getUsa());    //用户参与的所有故事数
+                        mStartNum.setText(userData.getUsb());    //用户发起的所有故事数
+                        mLikeNum.setText(userData.getUserlikenum());     // 用户获赞数
+                        mWords.setText(userData.getUserwords());    // 用户总字数
+                    }else {
+                        Toast.makeText(getContext(),"error",Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-    @Override
-    public void onActivityResult(int requestCode , int resultCode,Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        if (requestCode == 200){
-            String account = data.getStringExtra("username");
-            mUser.setText(account);
+                @Override
+                public void onFailure(Call<UserData> call, Throwable t) {
+                    Log.i(TAG, "onFailure: ");
+                }
+            });
         }
     }
+
 }

@@ -3,7 +3,11 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    android:paddingTop="10dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="10dp">
 
     <TextView
         android:id="@+id/main_story_content"
@@ -30,7 +34,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:scaleType="fitCenter"
-            android:tint="@color/colorMain"
+            android:tint="@color/colorHint"
             android:layout_marginStart="20dp"
             android:background="#0000"
             android:src="@drawable/ic_hot"/>

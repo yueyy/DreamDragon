@@ -28,6 +28,12 @@
         <activity android:name=".ui.activity.NewStoryActivity">
 
         </activity>
+        <activity android:name=".ui.activity.StoryActivity">
+
+        </activity>
+        <activity android:name=".ui.activity.StoryListActivity">
+
+        </activity>
     </application>
 
 </manifest>

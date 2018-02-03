@@ -3,20 +3,29 @@ package com.example.yueuy.dream.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.data.story.StoryData;
+import com.example.yueuy.dream.data.story.StoryLike;
+import com.example.yueuy.dream.data.story.StoryRandom;
+import com.example.yueuy.dream.net.ServiceGenerator;
 import com.example.yueuy.dream.net.api.StoryService;
 import com.example.yueuy.dream.ui.activity.StoryActivity;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by yueuy on 18-1-31.
@@ -24,18 +33,20 @@ import java.util.List;
 
 public class StoryRecycleAdapter extends RecyclerView.Adapter<StoryRecycleAdapter.ViewHolder> {
 
-    private List<StoryData> mStoryData;
+    private Context mContext;
+    private List<StoryRandom> mStoryData;
     private LayoutInflater mInflater;
     boolean clickLike = false;
     private SharedPreferencesUtils mPreferencesUtils;
 
-    public StoryRecycleAdapter(Context context, List<StoryData> storyData){
+    public StoryRecycleAdapter(Context context, List<StoryRandom> storyData){
+        this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mStoryData = storyData;
 
     }
 
-    public void updateData(List<StoryData> newData){
+    public void updateData(List<StoryRandom> newData){
         mStoryData = newData;
         notifyDataSetChanged();
     }
@@ -54,33 +65,59 @@ public class StoryRecycleAdapter extends RecyclerView.Adapter<StoryRecycleAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position){
+        viewHolder.content.setText(mStoryData.get(position).getRandom().get(position).getStory());
+        viewHolder.likenum.setText(mStoryData.get(position).getRandom().get(position).getLikenum());
+        viewHolder.keywordFirst.setText(mStoryData.get(position)
+                .getRandom().get(position)
+                .getKeyword().get(position)
+                .getKeyword1());
+        viewHolder.keywordSecond.setText(mStoryData.get(position)
+                .getRandom().get(position)
+                .getKeyword().get(position)
+                .getKeyword2());
+        final int storyid = mStoryData.get(position).getRandom().get(position).getStoryid();
 
-        viewHolder.content.setText(mStoryData.get(position).getStory());
         viewHolder.content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                StoryService storyService = ServiceGenerator.createService(StoryService.class);
+                storyService.showStory(storyid).enqueue(new Callback<StoryData>() {
+                    @Override
+                    public void onResponse(Call<StoryData> call, Response<StoryData> response) {
+                        if (response.isSuccessful()) {
+                            StoryData data = response.body();
+                            showStory(data);
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<StoryData> call, Throwable t) {
+
+                    }
+                });
             }
         });
-//        List<StoryData.Keyword> keywords = mStoryData.get(position).getKeywords();
-//        viewHolder.keywordFirst.setText(keywords.get(0).toString());
-//        viewHolder.keywordSecond.setText(keywords.get(1).toString());
+
         viewHolder.like.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     viewHolder.like.setColorFilter(Color.RED);
-                    int like = Integer.parseInt(viewHolder.likenum.getText().toString());
-                    like = like+1;
-                    viewHolder.likenum.setText(""+like);
+                    String token = mPreferencesUtils.getUser("token");
+                    StoryService storyService = ServiceGenerator.createService(StoryService.class);
+                    storyService.like(storyid,token).enqueue(new Callback<StoryLike>() {
+                        @Override
+                        public void onResponse(Call<StoryLike> call, Response<StoryLike> response) {
+                            int likenum = response.body().getLikenum();
+                            viewHolder.likenum.setText(likenum);
+                        }
+
+                        @Override
+                        public void onFailure(Call<StoryLike> call, Throwable t) {
+                            Toast.makeText(v.getContext(),"点赞失败",Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
-
-        viewHolder.talking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -101,22 +138,15 @@ public class StoryRecycleAdapter extends RecyclerView.Adapter<StoryRecycleAdapte
         }
     }
 
-//    private void newIntent(StoryData story,View view){
-//        Intent i = new Intent(view.getContext(), NewStoryActivity.class);
-//        OkHttpManager manager = new OkHttpManager();
-//        StoryService storyApi = manager.getRetrofit().create(StoryService.class);
-//        storyApi.showStory()
-//    }
-
-//    private void favorite(int id,){
-//        OkHttpManager manager = new OkHttpManager();
-//        StoryService storyApi = manager.getRetrofit().create(StoryService.class);
-//        storyApi.like();
-//
-//    }
-
-    private void continuation(View v){
-        Intent i = new Intent(v.getContext(),StoryActivity.class);
-
+    private void showStory(StoryData storyData){
+        Intent i = new Intent(mContext,StoryActivity.class);
+        Bundle b = new Bundle();
+        b.putString("story",storyData.getStory());
+        b.putInt("likenum",storyData.getLikenum());
+        b.putString("username",storyData.getUsername());
+        b.putString("keyword1",storyData.getKeyword().get(1).getKeyword1());
+        mContext.startActivity(i);
     }
+
+
 }

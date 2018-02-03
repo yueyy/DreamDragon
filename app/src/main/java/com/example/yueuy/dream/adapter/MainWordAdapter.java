@@ -28,9 +28,9 @@ public class MainWordAdapter extends RecyclerView.Adapter<MainWordAdapter.ViewHo
     private Context mContext;
     private LayoutInflater mInflater;
     private SharedPreferencesUtils mPreferencesUtils;
-    private List<Integer> mList;
+    private List<String> mList;
 
-    public MainWordAdapter(Context context, List<Integer> list){
+    public MainWordAdapter(Context context, List<String> list){
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mList = list;

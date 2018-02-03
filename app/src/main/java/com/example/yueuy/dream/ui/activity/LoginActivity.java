@@ -73,8 +73,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.link_create_account:
                 register();
                 break;
-//            case R.id.link_forget_password:
-//                forgetPassword();
             default:
                 break;
 
@@ -91,7 +89,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Call<UserAuth> call = userService.login(user);
         UserAuth auth = call.execute().body();
         mPreferencesUtils.setUser("token",auth.getToken());
-        mPreferencesUtils.setUser("uid",auth.getUid());
         login(auth.hashCode());
     }
 
@@ -106,10 +103,4 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(i);
         finish();
     }
-
-//    private void forgetPassword(){
-//        Intent i = new Intent(LoginActivity.this,ForgetPwdActivity.class);
-//        startActivity(i);
-//        finish();
-//    }
 }

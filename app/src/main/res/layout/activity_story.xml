@@ -36,6 +36,7 @@
                 android:layout_gravity="bottom"
                 android:background="@drawable/shape_edt">
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edt_story_continue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/story_write"

@@ -76,6 +76,12 @@ public class SharedPreferencesUtils {
 
         return sp.getString(key,"");
     }
+    public int getStoryId(String key){
+        throwTrouble();
+        SharedPreferences sp = mContext.getSharedPreferences(Constants.STORY,Context.MODE_PRIVATE);
+
+        return sp.getInt(key,0);
+    }
 
 
 

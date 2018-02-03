@@ -179,12 +179,8 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
         manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(10));
-        mainList = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            mainList.add(i,i+1);
-        }
-        mAdapter = new MainWordAdapter(getBaseContext(),mainList);
-        mRecyclerView.setAdapter(mAdapter);
+
+//        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(manager);
     }
 
