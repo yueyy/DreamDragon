@@ -6,8 +6,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
@@ -17,11 +17,13 @@ import android.widget.Toast;
 
 import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.adapter.MainWordAdapter;
+import com.example.yueuy.dream.data.story.Keyword;
+import com.example.yueuy.dream.data.story.StoryId;
+import com.example.yueuy.dream.data.story.StoryWrite;
+import com.example.yueuy.dream.net.ServiceGenerator;
+import com.example.yueuy.dream.net.api.StoryService;
+import com.example.yueuy.dream.util.SharedPreferencesUtils;
 import com.example.yueuy.dream.util.SpaceItemDecoration;
-import com.example.yueuy.dream.data.story.NewStoryData;
-import com.example.yueuy.dream.data.story.StoryData;
-import com.example.yueuy.dream.net.OkHttpManager;
-import com.example.yueuy.dream.net.api.StoryApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,8 @@ import retrofit2.Response;
 
 public class NewStoryActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private static final String TAG = "new story";
+    private Toolbar mToolbar;
     private EditText edtMainWord;
     private EditText edtContent;
     private ImageButton btnCancel;
@@ -45,6 +49,7 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
     private TextView tvLeftWords;
     private List<Integer> mainList ;
     private MainWordAdapter mAdapter;
+    private SharedPreferencesUtils mPreferencesUtils;
     private static final int MAX_WORDS = 100;
 
 
@@ -63,6 +68,7 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
         btnPublish = (ImageButton)findViewById(R.id.btn_publish);
         mRecyclerView = (RecyclerView)findViewById(R.id.main_word_recycle);
         edtMainWord = (EditText)findViewById(R.id.edt_keyword);
+        mToolbar = (Toolbar)findViewById(R.id.toolbar_edit);
 //        tvLeftWords = (TextView)findViewById(R.id.left_words);
 //        tvLeftWords.setText(String.valueOf(MAX_WORDS));
         setMainWordArray();
@@ -70,6 +76,18 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
         btnPublish.setOnClickListener(this);
         mRecyclerView.setOnClickListener(this);
 
+//        mToolbar.setTitle(R.string.tv_user_join);
+//        setSupportActionBar(mToolbar);
+//        mToolbar.setTitleTextColor(ContextCompat.getColor(getBaseContext(),R.color.colorMain));
+//        mToolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_black_24dp);
+//        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(NewStoryActivity.this,MainActivity.class);
+//                startActivity(i);
+//                finish();
+//            }
+//        });
     }
 
     private void changeLeftWords() {
@@ -120,24 +138,41 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
     }
     private void publish(){
         String content = edtContent.getText().toString();
+        mPreferencesUtils = new SharedPreferencesUtils();
+        mPreferencesUtils.init(getBaseContext());
+        mPreferencesUtils.setStory("story",content);
 
-        StoryData storyData = new StoryData();
-        OkHttpManager manager = new OkHttpManager();
-        StoryApi storyApi = manager.getRetrofit().create(StoryApi.class);
-        storyApi.newStory(storyData).enqueue(new Callback<NewStoryData>() {
+        StoryService storyService = ServiceGenerator.createService(StoryService.class,"token");
+        String token = mPreferencesUtils.getUser("token");
+
+        StoryWrite newStory = new StoryWrite();
+        newStory.setStory(content);
+        Log.i(TAG, "publish: "+mPreferencesUtils.getUserId("uid"));
+        newStory.setUid(mPreferencesUtils.getUserId("uid"));
+
+        Keyword keyword = new Keyword();
+        keyword.setKeyword1(mPreferencesUtils.getStory("keyword1"));
+
+
+        Call<StoryId> storyDataCall = storyService.newStory(newStory,token);
+        storyDataCall.enqueue(new Callback<StoryId>() {
             @Override
-            public void onResponse(Call<NewStoryData> call, Response<NewStoryData> response) {
-                int storyid = response.body().getStoryid();
-
+            public void onResponse(Call<StoryId> call, Response<StoryId> response) {
+                if (response.isSuccessful()) {
+                    mPreferencesUtils.setStory("storyid", response.body().getStoryid());
+                    Toast.makeText(getBaseContext(), "您的故事 未完待续...", Toast.LENGTH_SHORT).show();
+                    returnHomePage();
+                }else {
+                    Log.i(TAG, "onResponse: error!");
+                }
             }
 
             @Override
-            public void onFailure(Call<NewStoryData> call, Throwable t) {
-                Toast.makeText(getBaseContext(),"出现了一点问题",Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<StoryId> call, Throwable t) {
+                Log.i(TAG, "onFailure: ");
             }
         });
-        Toast.makeText(getBaseContext(),"您的故事 未完待续...",Toast.LENGTH_SHORT).show();
-        returnHomePage();
+
     }
 
     private void setMainWordArray(){
@@ -161,5 +196,6 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
         startActivity(i);
         finish();
     }
+
 
 }

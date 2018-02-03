@@ -17,8 +17,7 @@
             android:layout_height="wrap_content"
             android:text="@string/app_name"
             android:layout_gravity="center"
-            android:textColor="@color/colorMain"
-            android:textSize="20sp"/>
+            android:textColor="@color/colorMain"/>
 
         <TextView
             android:id="@+id/user_login"
@@ -253,6 +252,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginTop="3dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
             android:background="@color/colorWhite"
             android:clickable="true">

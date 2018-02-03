@@ -1,16 +1,21 @@
 package com.example.yueuy.dream.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import android.content.SharedPreferences;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.yueuy.dream.R;
+import com.example.yueuy.dream.data.story.Keyword;
+import com.example.yueuy.dream.net.ServiceGenerator;
+import com.example.yueuy.dream.net.api.StoryService;
+import com.example.yueuy.dream.util.SharedPreferencesUtils;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,8 +24,10 @@ import java.util.List;
 
 public class MainWordAdapter extends RecyclerView.Adapter<MainWordAdapter.ViewHolder> {
 
+    private static final String TAG = "newstory";
     private Context mContext;
     private LayoutInflater mInflater;
+    private SharedPreferencesUtils mPreferencesUtils;
     private List<Integer> mList;
 
     public MainWordAdapter(Context context, List<Integer> list){
@@ -36,23 +43,22 @@ public class MainWordAdapter extends RecyclerView.Adapter<MainWordAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent , int viewType){
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_main_word,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_keywords_btn,parent,false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position){
-        viewHolder.page.setText(mList.get(position).toString());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        Button page;
+        TextInputEditText page;
 
         public ViewHolder(View itemView){
             super(itemView);
-            page = itemView.findViewById(R.id.main_word_page);
+            page = itemView.findViewById(R.id.edt_keyword);
         }
     }
 }

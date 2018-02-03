@@ -12,19 +12,11 @@ import android.widget.TextView;
 import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.adapter.StoryRecycleAdapter;
 import com.example.yueuy.dream.data.story.StoryData;
-import com.example.yueuy.dream.data.story.StoryRank;
-import com.example.yueuy.dream.net.OkHttpManager;
-import com.example.yueuy.dream.net.api.StoryApi;
+import com.example.yueuy.dream.util.SpaceItemDecoration;
 import com.muxistudio.cardbanner.ViewHolder;
-import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * Created by yueuy on 18-1-29.
@@ -51,6 +43,9 @@ public class FragmentHome extends Fragment {
         mStoryData = initData();
         mAdapter = new StoryRecycleAdapter(getContext(),mStoryData);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(5));
+
+
         return view;
     }
 
@@ -64,6 +59,14 @@ public class FragmentHome extends Fragment {
         StoryData story = new StoryData();
         story.setStory("在很久很久以前");
         data.add(story);
+        StoryData storya = new StoryData();
+        storya.setStory("有一个人啊");
+        data.add(storya);
+        StoryData storyb = new StoryData();
+        story.setStory("他想吃鸡");
+        data.add(storyb);
+
+
 
         //        for (int i = 0; i < 3; i++) {
 //            ViewHolder<Integer> viewHolder = new ViewHolder<Integer>() {
@@ -85,7 +88,7 @@ public class FragmentHome extends Fragment {
 
 //    private List<StoryData> initData(){
 //        OkHttpManager manager = new OkHttpManager();
-//        StoryApi storyApi = manager.getRetrofit().create(StoryApi.class);
+//        StoryService storyApi = manager.getRetrofit().create(StoryService.class);
 //        storyApi.showRank().enqueue(new Callback<StoryRank>() {
 //            @Override
 //            public void onResponse(Call<StoryRank> call, Response<StoryRank> response) {

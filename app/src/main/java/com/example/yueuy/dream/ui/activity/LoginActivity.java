@@ -1,28 +1,24 @@
 package com.example.yueuy.dream.ui.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.data.user.User;
-import com.example.yueuy.dream.data.user.UserData;
-import com.example.yueuy.dream.data.user.UserLogin;
-import com.example.yueuy.dream.net.OkHttpManager;
-import com.example.yueuy.dream.net.api.UserApi;
+import com.example.yueuy.dream.data.user.UserAuth;
+import com.example.yueuy.dream.net.ServiceGenerator;
+import com.example.yueuy.dream.net.api.UserService;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 
+import java.io.IOException;
+
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 /**
@@ -68,7 +64,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v){
         switch (v.getId()){
             case R.id.btn_login:
-                check();
+                try {
+                    check();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
                 break;
             case R.id.link_create_account:
                 register();
@@ -81,50 +81,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void check(){
+    private void check()throws IOException{
         mPreferencesUtils = new SharedPreferencesUtils();
         mPreferencesUtils.init(getBaseContext());
-        final String account = edtAccount.getText().toString();
+        String account = edtAccount.getText().toString();
         String password = edtPassword.getText().toString();
-        OkHttpManager manager = new OkHttpManager();
-        UserApi userApi = manager.getRetrofit().create(UserApi.class);
-        mUser = new User(account,password);
-        userApi.login(mUser).enqueue(new Callback<UserLogin>() {
-            @Override
-            public void onResponse(Call<UserLogin> call, Response<UserLogin> response) {
-                if (response.isSuccessful()) {
-                    UserLogin login = response.body();
-                    mPreferencesUtils.set(account,"token",login.getToken());
-                    Toast.makeText(getBaseContext(),"登录成功",Toast.LENGTH_SHORT).show();
-                    login();
-                }else {
-                    Log.i(TAG, "onResponse: login error");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserLogin> call, Throwable t) {
-                Log.i(TAG, "onFailure: ");
-            }
-        });
+        User user = new User(account,password);
+        UserService userService = ServiceGenerator.createService(UserService.class);
+        Call<UserAuth> call = userService.login(user);
+        UserAuth auth = call.execute().body();
+        mPreferencesUtils.setUser("token",auth.getToken());
+        mPreferencesUtils.setUser("uid",auth.getUid());
+        login(auth.hashCode());
     }
 
-    private void login(){
+    private void login(int requestCode){
         Intent i = new Intent(LoginActivity.this,MainActivity.class);
-        startActivity(i);
+        startActivityForResult(i,requestCode);
         finish();
     }
+
     private void register(){
         Intent i = new Intent(LoginActivity.this,SignUpActivity.class);
         startActivity(i);
         finish();
     }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode,int resultCode,Intent data){
-//        super.onActivityResult(requestCode,resultCode,data);
-//        if (requestCode == 200)
-//    }
 
 //    private void forgetPassword(){
 //        Intent i = new Intent(LoginActivity.this,ForgetPwdActivity.class);

@@ -1,10 +1,10 @@
 package com.example.yueuy.dream.data.user;
 
 /**
- * Created by yueuy on 18-2-1.
+ * Created by yueuy on 18-2-3.
  */
 
-public class UserSignUpData {
+public class UserId {
     private int uid;
     private String message;
 

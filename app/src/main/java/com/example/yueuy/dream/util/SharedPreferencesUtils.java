@@ -2,6 +2,9 @@ package com.example.yueuy.dream.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.provider.ContactsContract;
+
+import com.example.yueuy.dream.data.Constants;
 
 import java.util.Map;
 
@@ -12,7 +15,7 @@ import java.util.Map;
 public class SharedPreferencesUtils {
     private static Context mContext;
 
-    public static void init(Context context){
+    public void init(Context context){
         mContext = context;
     }
 
@@ -22,27 +25,58 @@ public class SharedPreferencesUtils {
         }
     }
 
-    public static void set(String name,String key,String value){
+    public void setUser(String key,String value){
         throwTrouble();
-        SharedPreferences sp = mContext.getSharedPreferences(name,Context.MODE_PRIVATE);
+        SharedPreferences sp = mContext.getSharedPreferences(Constants.USER,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(key,value);
         editor.apply();
     }
 
-    public static String get(String name,String key,String value){
+    public void setUser(String key,int value) {
         throwTrouble();
-        SharedPreferences sp = mContext.getSharedPreferences(name,Context.MODE_PRIVATE);
-
-        return sp.getString(key,value);
-    }
-
-    public static void set(String name,String key,int value) {
-        throwTrouble();
-        SharedPreferences sp = mContext.getSharedPreferences(name, Context.MODE_PRIVATE);
+        SharedPreferences sp = mContext.getSharedPreferences(Constants.USER,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putInt(key, value);
         editor.apply();
     }
+
+    public String getUser(String key){
+        throwTrouble();
+        SharedPreferences sp = mContext.getSharedPreferences(Constants.USER,Context.MODE_PRIVATE);
+
+        return sp.getString(key,"");
+    }
+
+    public int getUserId(String key){
+        throwTrouble();
+        SharedPreferences sp = mContext.getSharedPreferences(Constants.USER,Context.MODE_PRIVATE);
+        return sp.getInt(key,0);
+    }
+
+    public void setStory(String key,String value){
+        throwTrouble();
+        SharedPreferences sp = mContext.getSharedPreferences(Constants.STORY,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(key,value);
+        editor.apply();
+    }
+
+    public void setStory(String key,int value) {
+        throwTrouble();
+        SharedPreferences sp = mContext.getSharedPreferences(Constants.STORY,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+
+    public String getStory(String key){
+        throwTrouble();
+        SharedPreferences sp = mContext.getSharedPreferences(Constants.STORY,Context.MODE_PRIVATE);
+
+        return sp.getString(key,"");
+    }
+
+
 
 }

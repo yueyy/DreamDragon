@@ -9,7 +9,5 @@ public class Constants {
 
     public static final String STORY = "story";
 
-    public static final String STORYC = "storyc";
-
 
 }

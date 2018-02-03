@@ -1,7 +1,6 @@
 package com.example.yueuy.dream.ui.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,12 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yueuy.dream.R;
-import com.example.yueuy.dream.data.Constants;
 import com.example.yueuy.dream.data.user.User;
-import com.example.yueuy.dream.data.user.UserLogin;
-import com.example.yueuy.dream.data.user.UserSignUpData;
-import com.example.yueuy.dream.net.OkHttpManager;
-import com.example.yueuy.dream.net.api.UserApi;
+import com.example.yueuy.dream.data.user.UserId;
+import com.example.yueuy.dream.net.ServiceGenerator;
+import com.example.yueuy.dream.net.api.UserService;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 
 import retrofit2.Call;
@@ -69,7 +66,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void register(){
-
         mPreferencesUtils = new SharedPreferencesUtils();
         final String account = edtAccount.getText().toString();
         String password = edtPassword.getText().toString();
@@ -77,37 +73,31 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(getBaseContext(),"请检查输入!",Toast.LENGTH_SHORT).show();
         }else{
             mPreferencesUtils.init(getBaseContext());
-            mPreferencesUtils.set(Constants.USER,"account",account);
-            mPreferencesUtils.set(account,"account",account);
-            mPreferencesUtils.set(account,"password",password);
-            User user = new User(account,password);
-            OkHttpManager manager = new OkHttpManager();
-            UserApi userApi = manager.getRetrofit().create(UserApi.class);
-            userApi.signup(user).enqueue(new Callback<UserSignUpData>() {
-                @Override
-                public void onResponse(Call<UserSignUpData> call, Response<UserSignUpData> response)throws NullPointerException {
-                    if (response.isSuccessful()) {
-                        UserSignUpData signUpData = response.body();
-                        Log.i(TAG, "onResponse: " + response.body());
-                        if (signUpData.getMessage() == null){
-                            mPreferencesUtils.set(account,"uid",signUpData.getUid());
-                            Toast.makeText(getBaseContext(),"注册成功",Toast.LENGTH_SHORT).show();
-                            login();
-                        }else{
-                            Log.i(TAG, "onResponse: error message");
-                            Toast.makeText(getBaseContext(),"Has already been registered!",Toast.LENGTH_SHORT).show();
-                        }
+            mPreferencesUtils.setUser("account",account);
+            mPreferencesUtils.setUser("password",password);
 
+            User user = new User(account,password);
+            UserService userService = ServiceGenerator.createService(UserService.class);
+            userService.signup(user).enqueue(new Callback<UserId>() {
+                @Override
+                public void onResponse(Call<UserId> call, Response<UserId> response) {
+                    if (response.isSuccessful()){
+                        mPreferencesUtils.setUser("uid",response.body().getUid());
+                        if (response.body().getMessage()!=null){
+                            Toast.makeText(getBaseContext(),"注册成功!",Toast.LENGTH_SHORT).show();
+                            login();
+                        }else {
+                            Toast.makeText(getBaseContext(),"用户已注册!",Toast.LENGTH_SHORT).show();
+                        }
                     }else {
-                        Log.i(TAG, "onResponse: error register");
+                        Log.i(TAG, "onResponse: error");
                         Toast.makeText(getBaseContext(),"error!",Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<UserSignUpData> call, Throwable t) {
+                public void onFailure(Call<UserId> call, Throwable t) {
                     Log.i(TAG, "onFailure: ");
-                    Toast.makeText(getBaseContext(),"error register!",Toast.LENGTH_SHORT).show();
                 }
             });
         }

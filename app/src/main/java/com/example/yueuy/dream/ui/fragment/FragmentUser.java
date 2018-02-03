@@ -13,8 +13,7 @@ import android.widget.TextView;
 
 import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.ui.activity.LoginActivity;
-import com.example.yueuy.dream.ui.activity.SignUpActivity;
-import com.example.yueuy.dream.ui.activity.StoryActivity;
+import com.example.yueuy.dream.ui.activity.StoryListActivity;
 
 /**
  * Created by yueuy on 18-1-29.
@@ -71,9 +70,25 @@ public class FragmentUser extends Fragment{
         mStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), StoryActivity.class);
+                Intent i = new Intent(getActivity(), StoryListActivity.class);
                 startActivity(i);
             }
         });
+    }
+
+//    private void initData(View v){
+//        OkHttpManager manager = new OkHttpManager();
+//        UserService userApi = manager.getRetrofit().create(UserService.class);
+//        userApi.
+//        userApi.showMyData()
+//    }
+
+    @Override
+    public void onActivityResult(int requestCode , int resultCode,Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == 200){
+            String account = data.getStringExtra("username");
+            mUser.setText(account);
+        }
     }
 }

@@ -1,10 +1,10 @@
 package com.example.yueuy.dream.data.user;
 
 /**
- * Created by yueuy on 18-1-31.
+ * Created by yueuy on 18-2-3.
  */
 
-public class UserLogin {
+public class UserAuth {
     private String token;
     private int uid;
 

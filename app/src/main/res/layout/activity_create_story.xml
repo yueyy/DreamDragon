@@ -30,7 +30,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:src="@mipmap/ic_check_black_24dp"
             android:background="#0000"
             android:layout_gravity="end"/>
@@ -64,50 +63,32 @@
         />
     </android.support.design.widget.TextInputLayout>
 
-    <ScrollView
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:layout_marginBottom="50dp"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:background="@drawable/shape_main_word"-->
+        <!--android:fillViewport="true">-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/main_word_recycle"
         android:layout_width="match_parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/shape_main_word"
-        android:fillViewport="true">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/main_word_recycle"
-                android:layout_width="match_parent"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_height="wrap_content"
-                >
-            </android.support.v7.widget.RecyclerView>
+        android:layout_weight="0.5"
+        >
+    </android.support.v7.widget.RecyclerView>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/edt_keyword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:background="@drawable/shape_keyword"
-                android:hint="@string/story_keyword"
-                android:paddingStart="3dp"
-                android:paddingEnd="3dp"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:textColorHint="@color/colorWhite"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp"
-                android:maxLength="5"
-                android:maxLines="1"/>
-
-        </LinearLayout>
-
-    </ScrollView>
+    <!--</ScrollView>-->
 
 </LinearLayout>

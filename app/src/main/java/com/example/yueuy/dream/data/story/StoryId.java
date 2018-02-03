@@ -1,10 +1,10 @@
 package com.example.yueuy.dream.data.story;
 
 /**
- * Created by yueuy on 18-1-30.
+ * Created by yueuy on 18-2-3.
  */
 
-public class NewStoryData {
+public class StoryId {
     private int storyid;
 
     public int getStoryid() {
