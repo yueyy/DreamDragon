@@ -90,7 +90,12 @@ public class SharedPreferencesUtils {
 
         return sp.getInt(key,0);
     }
-
+    public void removeUser(){
+        SharedPreferences sp = mContext.getSharedPreferences(Constants.USER,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.apply();
+    }
 
 
 }

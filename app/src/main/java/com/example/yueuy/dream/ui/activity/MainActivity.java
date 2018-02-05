@@ -3,6 +3,7 @@ package com.example.yueuy.dream.ui.activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton btnHome;
     private ImageButton btnNewStory;
     private ImageButton btnUser;
+    private TextView tvHome;
+    private TextView tvUser;
     private CardBanner mBanner;
     private ViewPager mViewPager;
     private FragmentAdapter mFragmentAdapter;
@@ -70,7 +73,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnUser = (ImageButton) findViewById(R.id.btn_user_page);
         btnNewStory = (ImageButton) findViewById(R.id.btn_new_story);
         mViewPager = (ViewPager)findViewById(R.id.view_pager);
-
+        tvHome = (TextView)findViewById(R.id.tv_home_page);
+        tvUser = (TextView)findViewById(R.id.tv_user_page);
         btnHome.setOnClickListener(this);
         btnUser.setOnClickListener(this);
         btnNewStory.setOnClickListener(this);
@@ -86,53 +90,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initData(){
         mPreferencesUtils = new SharedPreferencesUtils();
         mPreferencesUtils.init(MainActivity.this);
-//        String token = mPreferencesUtils.getUser("token");
         mFragmentHome = new FragmentHome();
         mFragmentUser = new FragmentUser();
         mFragmentList.add(mFragmentHome);
         mFragmentList.add(mFragmentUser);
         mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),mFragmentList);
         mViewPager.setAdapter(mFragmentAdapter);
-//        if (token.equals("unknown")){
-//            mFragmentHome = new FragmentHome();
-//            mFragmentUser = new FragmentUser();
-//            mFragmentList.add(mFragmentHome);
-//            mFragmentList.add(mFragmentUser);
-//            mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),mFragmentList);
-//            mViewPager.setAdapter(mFragmentAdapter);
-//        }else {
-//            //  登录状态
-//            //  获得用户数据
-//            mFragmentHome = new FragmentHome();
-//            mFragmentUser = new FragmentUser();
-//            mFragmentList.add(mFragmentHome);
-//            mFragmentList.add(mFragmentUser);
-//            mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),mFragmentList);
-//            uid = mPreferencesUtils.getUserId("uid");
-//            UserService userService = ServiceGenerator.createService(UserService.class);
-//            userService.showMyData(uid,token).enqueue(new Callback<UserData>() {
-//                @Override
-//                public void onResponse(Call<UserData> call, Response<UserData> response) {
-//                    if (response.isSuccessful()) {
-//                        mUserData = new UserData();
-//                        mUserData = response.body();
-//                        mFragmentUser = FragmentUser.newInstance(mUserData);
-//                        mFragmentList.add(mFragmentUser);
-//                        mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), mFragmentList);
-//                        mViewPager.setAdapter(mFragmentAdapter);
-//                    } else {
-//                        Toast.makeText(getBaseContext(), "main error", Toast.LENGTH_SHORT).show();
-//                        Log.i(TAG, "onResponse: userdata");
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<UserData> call, Throwable t) {
-//                    Toast.makeText(getBaseContext(), "请先登录!", Toast.LENGTH_SHORT).show();
-//                }
-//            });
-        }
-
+    }
 
     @Override
     public void onPageScrollStateChanged(int arg0){
@@ -152,13 +116,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v){
         switch (v.getId()){
+            case R.id.tv_home_page:
             case R.id.btn_home_page:
                 mViewPager.setCurrentItem(0);
-
+                btnHome.setColorFilter(ContextCompat.getColor(getBaseContext(),R.color.colorMain));
+                btnUser.setColorFilter(ContextCompat.getColor(getBaseContext(),R.color.colorHint));
                 break;
+            case R.id.tv_user_page:
             case R.id.btn_user_page:
                 mViewPager.setCurrentItem(1);
-
+                btnHome.setColorFilter(ContextCompat.getColor(getBaseContext(),R.color.colorHint));
+                btnUser.setColorFilter(ContextCompat.getColor(getBaseContext(),R.color.colorMain));
                 break;
             case R.id.btn_new_story:
                 newStory();
@@ -167,11 +135,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode,int resultCode,Intent data){
-//        switch (resultCode){
-//
-//        }
-//    }
 }

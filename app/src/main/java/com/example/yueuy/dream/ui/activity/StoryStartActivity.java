@@ -28,6 +28,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by yueuy on 18-2-2.
@@ -65,8 +67,12 @@ public class StoryStartActivity extends AppCompatActivity {
 //        mToolbar.setTitle("我发起的故事");
     }
     private void initData(int uid){
-        UserService userService = ServiceGenerator.createService(UserService.class);
-        userService.showWrite(uid,token).enqueue(new Callback<UserStart.Start>() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://120.78.194.125:2000/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        UserService service = retrofit.create(UserService.class);
+        service.showWrite(uid,token).enqueue(new Callback<UserStart.Start>() {
             @Override
             public void onResponse(Call<UserStart.Start> call, Response<UserStart.Start> response) {
                 try {

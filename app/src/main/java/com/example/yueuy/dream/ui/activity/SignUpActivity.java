@@ -87,11 +87,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             Toast.makeText(getBaseContext(),"注册成功!",Toast.LENGTH_SHORT).show();
                             login();
                         }else {
-                            Toast.makeText(getBaseContext(),"用户已注册!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(),"服务器好像离家出走了...",Toast.LENGTH_SHORT).show();
                         }
                     }else {
                         Log.i(TAG, "onResponse: error");
-                        Toast.makeText(getBaseContext(),"error!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(),"用户已注册!",Toast.LENGTH_SHORT).show();
                     }
                 }
 

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.adapter.StoryDataAdapter;
 import com.example.yueuy.dream.adapter.StoryKeyAdapter;
 import com.example.yueuy.dream.data.story.StoryData;
+import com.example.yueuy.dream.data.story.StoryId;
 import com.example.yueuy.dream.data.story.StoryLike;
 import com.example.yueuy.dream.data.story.Storyc;
 import com.example.yueuy.dream.data.story.StorycId;
@@ -29,9 +31,16 @@ import com.example.yueuy.dream.util.SpaceItemDecoration;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by yueuy on 18-2-3.
@@ -98,7 +107,13 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
                         mManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                         mKeyRecycle.setLayoutManager(mManager);
                         mKeyRecycle.addItemDecoration(new SpaceItemDecoration(5));
-                        mKeyAdapter = new StoryKeyAdapter(getBaseContext(),mStoryData.getKeywords());
+                        List<StoryData.KeywordsBean> keywordsBeanList = new ArrayList<>();
+                        for (int i = 0; i < 8; i++) {
+                            if (!mStoryData.getKeywords().get(i).toString().equals("")){
+                                keywordsBeanList.add(mStoryData.getKeywords().get(i));
+                            }
+                        }
+                        mKeyAdapter = new StoryKeyAdapter(getBaseContext(),keywordsBeanList);
                         mKeyRecycle.setAdapter(mKeyAdapter);
                         //    续写recycleView
                         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -124,33 +139,34 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
 
     private void continuation(){
         String c = mEditText.getText().toString();
-        Storyc storyc = new Storyc();
-        storyc.setStoryc(c);
+
         String token = mPreferencesUtils.getUser("token");
         if (token.equals("unknown")) {
             Toast.makeText(getBaseContext(),"请先登录",Toast.LENGTH_SHORT).show();
         }else {
             int uid = mPreferencesUtils.getUserId("uid");
-            String uId = String.valueOf(uid);
-            storyc.setUid(uId);
-            StoryService storyService = ServiceGenerator.createService(StoryService.class);
-            storyService.continuation(uid,storyc, token).enqueue(new Callback<StorycId>() {
+            Storyc storyc = new Storyc();
+            storyc.setUid(uid);
+            storyc.setStoryc(c);
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://120.78.194.125:2000/api/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            StoryService service = retrofit.create(StoryService.class);
+            Call<StorycId> call = service.continuation(uid,storyc,token);
+            call.enqueue(new Callback<StorycId>() {
                 @Override
                 public void onResponse(Call<StorycId> call, Response<StorycId> response) {
-                    Log.i(TAG, "onResponse: "+response.code()+response.headers());
-                    if (response.isSuccessful()) {
-                        Toast.makeText(getBaseContext(), "您的脑洞已发送!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Log.i(TAG, "onResponse: "+response.body());
-                        Toast.makeText(getBaseContext(), "error", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(getBaseContext(),"您的脑洞发送成功!",Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onFailure(Call<StorycId> call, Throwable t) {
-                    Log.i(TAG, "onFailure: ");
+
                 }
             });
+
         }
     }
 

@@ -23,15 +23,20 @@ import com.example.yueuy.dream.data.story.StoryId;
 import com.example.yueuy.dream.data.story.StoryWrite;
 import com.example.yueuy.dream.net.ServiceGenerator;
 import com.example.yueuy.dream.net.api.StoryService;
+import com.example.yueuy.dream.net.api.UserService;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 import com.example.yueuy.dream.util.SpaceItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by yueuy on 18-1-29.
@@ -134,7 +139,7 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
         String token = mPreferencesUtils.getUser("token");
         String uid = String.valueOf(mPreferencesUtils.getUserId("uid"));
         if (token.equals("unknown")) {
-            Toast.makeText(getBaseContext(), "请先登录", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "没有登录用户", Toast.LENGTH_SHORT).show();
         }else {
             StoryWrite newStory = new StoryWrite();
             newStory.setStory(content);
@@ -142,12 +147,22 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
             newStory.setUid(uid);
             Log.i(TAG, "publish: " + mPreferencesUtils.getUserId("uid"));
 
-            Call<StoryId> storyDataCall = storyService.newStory(newStory, token);
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .build();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(client)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl("http://120.78.194.125:2000")
+                    .build();
+            StoryService service = retrofit.create(StoryService.class);
+            Call<StoryId> storyDataCall = service.newStory(newStory,token);
+
             storyDataCall.enqueue(new Callback<StoryId>() {
                 @Override
                 public void onResponse(Call<StoryId> call, Response<StoryId> response) {
-                    Log.i(TAG, "onResponse: "+response.body()+response.code());
-                    if (response.isSuccessful()) {
+                    Log.i(TAG, "onResponse: "+response .body()+response.code());
+                    if (response.code()==200) {
                         mPreferencesUtils.setStory("storyid", response.body().getStoryid());
                         Toast.makeText(getBaseContext(), "您的故事 未完待续...", Toast.LENGTH_SHORT).show();
                         returnHomePage();

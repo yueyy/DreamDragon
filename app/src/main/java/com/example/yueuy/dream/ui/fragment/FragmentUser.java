@@ -17,15 +17,21 @@ import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.adapter.FragmentAdapter;
 import com.example.yueuy.dream.data.user.UserData;
 import com.example.yueuy.dream.net.ServiceGenerator;
+import com.example.yueuy.dream.net.api.StoryService;
 import com.example.yueuy.dream.net.api.UserService;
 import com.example.yueuy.dream.ui.activity.LoginActivity;
+import com.example.yueuy.dream.ui.activity.StoryJoinActivity;
 import com.example.yueuy.dream.ui.activity.StoryMainActivity;
 import com.example.yueuy.dream.ui.activity.StoryStartActivity;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by yueuy on 18-1-29.
@@ -36,6 +42,7 @@ public class FragmentUser extends Fragment {
     private static final String TAG = "fragmentUser";
     private Toolbar mToolbar;
     private TextView mLogin;
+    private TextView mLogout;
     private TextView mUser, mIntro, mStartNum, mJoinNum, mLikeNum, mWords;
     private LinearLayout mStart;
     private LinearLayout mJoin;
@@ -53,32 +60,38 @@ public class FragmentUser extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_page, null);
         initView(view);
 
+
         mPreferencesUtils = new SharedPreferencesUtils();
-        String username = mPreferencesUtils.getUser("username");
+        final String username = mPreferencesUtils.getUser("username");
         uid = mPreferencesUtils.getUserId("uid");
-        UserService userService = ServiceGenerator.createService(UserService.class);
-        userService.showMyData(uid,token).enqueue(new Callback<UserData>() {
-            @Override
-            public void onResponse(Call<UserData> call, Response<UserData> response) {
-                if (response.isSuccessful()) {
-                    mUserData = response.body();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserData> call, Throwable t) {
-
-            }
-        });
-
+        token = mPreferencesUtils.getUser("token");
         if (username.equals("unknown")) {
             mUser.setText(username);                        // 刷新帐号名
         }else {
-            mUser.setText(username);
-            mJoinNum.setText(mUserData.getUsa());                 // 刷新参与数
-            mStartNum.setText(mUserData.getUsb());                // 刷新发起数
-            mLikeNum.setText(mUserData.getUserlikenum());         // 刷新被赞数
-            mWords.setText(mUserData.getUserwords());             // 刷新总字数
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://120.78.194.125:2000/api/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            UserService service = retrofit.create(UserService.class);
+            Call<UserData> call = service.showMyData(uid,token);
+            call.enqueue(new Callback<UserData>() {
+                @Override
+                public void onResponse(Call<UserData> call, Response<UserData> response) {
+                    mUserData = response.body();
+                    Log.i(TAG, "onResponse: "+mUserData.toString());
+                    mUser.setText(username);
+                    mJoinNum.setText(String.valueOf(mUserData.getUsa()));                 // 刷新参与数
+                    mStartNum.setText(String.valueOf(mUserData.getUsb()));                // 刷新发起数
+                    mLikeNum.setText(String.valueOf(mUserData.getUserlikenum()));         // 刷新被赞数
+                    mWords.setText(String.valueOf(mUserData.getUserwords()));             // 刷新总字数
+                    Log.i(TAG, "onResponse: "+response.code()+response.headers());
+                }
+
+                @Override
+                public void onFailure(Call<UserData> call, Throwable t) {
+
+                }
+            });
         }
 
         return view;
@@ -94,13 +107,15 @@ public class FragmentUser extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         mToolbar = view.findViewById(R.id.toolbar_user);
         mToolbar.setTitle(R.string.tab_user);
-
-        mLogin = view.findViewById(R.id.user_login);
-        mUser = view.findViewById(R.id.user_name);
-        mIntro = view.findViewById(R.id.user_intro);
         mStartNum = view.findViewById(R.id.user_start_story);
         mJoinNum = view.findViewById(R.id.user_join_story);
         mLikeNum = view.findViewById(R.id.user_like);
+        mLogin = view.findViewById(R.id.user_login);
+        mLogout = view.findViewById(R.id.user_logout);
+
+        mUser = view.findViewById(R.id.user_name);
+        mIntro = view.findViewById(R.id.user_intro);
+
         mWords = view.findViewById(R.id.user_all_words);
         mStart = view.findViewById(R.id.ll_my_start_story);
         mJoin = view.findViewById(R.id.ll_my_join_story);
@@ -119,6 +134,14 @@ public class FragmentUser extends Fragment {
             }
         });
 
+        mLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPreferencesUtils.removeUser();
+                Intent i = new Intent(getActivity(),LoginActivity.class);
+                startActivity(i);
+            }
+        });
         mStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,36 +149,14 @@ public class FragmentUser extends Fragment {
                 startActivity(i);
             }
         });
-    }
 
-//    private void initData(View view) {
-//        mPreferencesUtils = new SharedPreferencesUtils();
-//        String username = mPreferencesUtils.getUser("username");
-//        uid = mPreferencesUtils.getUserId("uid");
-//        UserService userService = ServiceGenerator.createService(UserService.class);
-//        userService.showMyData(uid,token).enqueue(new Callback<UserData>() {
-//            @Override
-//            public void onResponse(Call<UserData> call, Response<UserData> response) {
-//                if (response.isSuccessful()) {
-//                    mUserData = response.body();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<UserData> call, Throwable t) {
-////                Toast.makeText(view.getContext(), "请先登录!", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        if (username.equals("unknown")) {
-//            mUser.setText(username);                        // 刷新帐号名
-//        }else {
-//            mUser.setText(username);
-//            mJoinNum.setText(mUserData.getUsa());                 // 刷新参与数
-//            mStartNum.setText(mUserData.getUsb());                // 刷新发起数
-//            mLikeNum.setText(mUserData.getUserlikenum());         // 刷新被赞数
-//            mWords.setText(mUserData.getUserwords());             // 刷新总字数
-//        }
-//    }
+        mJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), StoryJoinActivity.class);
+                startActivity(i);
+            }
+        });
+    }
 
 }

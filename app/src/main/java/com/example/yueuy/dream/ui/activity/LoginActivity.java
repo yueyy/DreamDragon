@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.data.user.User;
@@ -86,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void check()throws IOException{
         mPreferencesUtils = new SharedPreferencesUtils();
         mPreferencesUtils.init(getBaseContext());
-        String account = edtAccount.getText().toString();
+        final String account = edtAccount.getText().toString();
         String password = edtPassword.getText().toString();
         User user = new User(account,password);
         UserService userService = ServiceGenerator.createService(UserService.class);
@@ -94,26 +95,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         call.enqueue(new Callback<UserAuth>() {
             @Override
             public void onResponse(Call<UserAuth> call, Response<UserAuth> response) {
-                UserAuth auth = response.body();
-                mPreferencesUtils.setUser("token",auth.getToken());
-                mPreferencesUtils.setUser("uid",auth.getUid());
-                Log.i(TAG, "check: "+auth.getUid());
-                login(auth.getToken());
+                if (response.isSuccessful()) {
+                    UserAuth auth = response.body();
+                    mPreferencesUtils.setUser("username", account);
+                    mPreferencesUtils.setUser("token", auth.getToken());
+                    mPreferencesUtils.setUser("uid", auth.getUid());
+                    Log.i(TAG, "check: " + auth.getUid());
+                    login(auth.getToken());
+                }else {
+                    Toast.makeText(getBaseContext(),"服务器好像离家出走了...",Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<UserAuth> call, Throwable t) {
+                Toast.makeText(getBaseContext(),"忘记密码了吗 再注册一个帐号吧=-=",Toast.LENGTH_SHORT).show();
 
             }
         });
-
     }
 
     private void login(String token){
         Intent i = new Intent(LoginActivity.this,MainActivity.class);
         i.putExtra("token",token);
         startActivity(i);
-//        startActivityForResult(i,requestCode);
         finish();
     }
 

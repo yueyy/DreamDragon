@@ -26,29 +26,35 @@ import retrofit2.http.Query;
 
 public interface StoryService {
 
+    //查看排行榜
     @GET("/api/story/rank/")
     Call<StoryRank> showRank();
 
+    //随机故事
     @GET("/api/story/random/")
     Call<StoryRandom> showRandom();
 
+    //查看故事详情
     @GET("/api/story/{storyid}/")
     Call<StoryData> showStory(@Path("storyid") int storyId);
 
+    //点赞
     @GET("/api/story/{storyid}/like/")
     Call<StoryLike> like(@Path("storyid") int storyId,
                          @Header("token") String token);
 
+    //发起故事
     @POST("/api/story/write/")
     Call<StoryId> newStory(@Body StoryWrite storyWrite,
                            @Header("token")String token);
 
-
-    @POST("/api/story/{storyid}/continue/")
+    //续写
+    @POST("api/story/{storyid}/continue/")
     Call<StorycId> continuation(@Path("storyid")int storyId,
                                 @Body Storyc storyc,
                                 @Header("token")String token);
 
+    //删除
     @DELETE("/api/story/{storyid}/delete")
     Call<ResponseBody> deleteStory(@Query("storyid")int storyId,
                                    @Header("token") String token);

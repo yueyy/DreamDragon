@@ -15,9 +15,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class ServiceGenerator {
-    public static final String BASE_URL = "http://120.78.194.125:2000/api/";
+    public static final String BASE_URL = "http://120.78.194.125:2000";
 
-    private static OkHttpClient.Builder httpClient = new OkHttpClient().newBuilder();
+    private static OkHttpClient.Builder httpClient =
+            new OkHttpClient().newBuilder();
 
     private static Retrofit.Builder sBuilder = new Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -42,7 +43,7 @@ public class ServiceGenerator {
             });
 //            httpClient.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY ));
         }
-        OkHttpClient client = httpClient.build();
+        OkHttpClient client = httpClient.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)).build();
         Retrofit retrofit = sBuilder.client(client).build();
         return retrofit.create(serviceClass);
     }

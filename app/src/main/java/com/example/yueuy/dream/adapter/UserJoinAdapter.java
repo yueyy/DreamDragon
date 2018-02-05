@@ -2,7 +2,6 @@ package com.example.yueuy.dream.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.yueuy.dream.R;
+import com.example.yueuy.dream.data.user.UserJoin;
 import com.example.yueuy.dream.data.user.UserStart;
 import com.example.yueuy.dream.ui.activity.StoryMainActivity;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
@@ -20,14 +20,14 @@ import java.util.List;
  * Created by yueuy on 18-2-5.
  */
 
-public class UserStartAdapter extends RecyclerView.Adapter<UserStartAdapter.ViewHolder> {
+public class UserJoinAdapter extends RecyclerView.Adapter<UserJoinAdapter.ViewHolder> {
 
     private Context mContext;
     private LayoutInflater mInflater;
     private SharedPreferencesUtils mPreferencesUtils;
-    private List<UserStart.Start> mList;
+    private List<UserJoin.JoinBean> mList;
 
-    public UserStartAdapter(Context context,List<UserStart.Start> story){
+    public UserJoinAdapter(Context context,List<UserJoin.JoinBean> story){
         this.mContext = context;
         this.mList = story;
     }
