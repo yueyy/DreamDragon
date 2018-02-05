@@ -70,14 +70,14 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_list);
         initView();
-        initData();
+        initData(getStoryId());
     }
 
     private void initView(){
         mToolbar = (Toolbar)findViewById(R.id.toolbar_story_list);
         tvStory = (TextView)findViewById(R.id.story_all_content);
         mKeyRecycle = (RecyclerView)findViewById(R.id.story_main_keyword);
-        mStorycRecycle = (RecyclerView) findViewById(R.id.story_main_recycle);
+        mStorycRecycle = (RecyclerView) findViewById(R.id.story_continue_recycle);
         mLike = (ImageButton)findViewById(R.id.story_main_like_img);
         tvUsername = (TextView)findViewById(R.id.story_main_username);
         tvLike = (TextView)findViewById(R.id.story_main_like);
@@ -90,9 +90,7 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
         mSend.setOnClickListener(this);
     }
 
-    private void initData(){
-        Intent intent = getIntent();
-        int storyid = intent.getIntExtra("storyid",0);
+    private void initData(int storyid){
         if (storyid != 0) {
             StoryService storyService = ServiceGenerator.createService(StoryService.class);
             storyService.showStory(storyid).enqueue(new Callback<StoryData>() {
@@ -119,6 +117,7 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
                         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         mStorycRecycle.setLayoutManager(mLayoutManager);
                         mAdapter = new StoryDataAdapter(getBaseContext(), mStoryData.getStoryc());
+                        mStorycRecycle.addItemDecoration(new SpaceItemDecoration(5));
                         mStorycRecycle.setAdapter(mAdapter);
                     }catch (NullPointerException e){
                         e.printStackTrace();
@@ -137,7 +136,7 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    private void continuation(){
+    private void continuation(int storyId){
         String c = mEditText.getText().toString();
 
         String token = mPreferencesUtils.getUser("token");
@@ -149,16 +148,14 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
             storyc.setUid(uid);
             storyc.setStoryc(c);
 
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://120.78.194.125:2000/api/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            StoryService service = retrofit.create(StoryService.class);
-            Call<StorycId> call = service.continuation(uid,storyc,token);
+            StoryService service = ServiceGenerator.createService(StoryService.class);
+            Call<StorycId> call = service.continuation(storyId,storyc,token);
             call.enqueue(new Callback<StorycId>() {
                 @Override
                 public void onResponse(Call<StorycId> call, Response<StorycId> response) {
-                    Toast.makeText(getBaseContext(),"您的脑洞发送成功!",Toast.LENGTH_SHORT).show();
+                    int id = response.body().getStorycid();
+                    Log.i(TAG, "onResponse: "+response.body()+response.headers());
+                    Toast.makeText(getBaseContext(),"你的脑洞发射成功! 代号为: "+id,Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -196,21 +193,26 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    private int getStoryId(){
+        Intent intent = getIntent();
+        int storyid = intent.getIntExtra("storyid",0);
+        return storyid;
+    }
 
     @Override
     public void onClick(View v){
         switch (v.getId()){
             case R.id.story_main_like_img:
-                Intent intent = getIntent();
-                int storyid = intent.getIntExtra("storyid",0);
-                like(storyid);
+                like(getStoryId());
                 break;
             case R.id.story_main_send:
-                continuation();
+                continuation(getStoryId());
                 break;
             default:
                 break;
         }
     }
+
+
 
 }

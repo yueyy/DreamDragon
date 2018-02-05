@@ -7,13 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.data.user.UserJoin;
-import com.example.yueuy.dream.data.user.UserStart;
 import com.example.yueuy.dream.ui.activity.StoryMainActivity;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
-
 import java.util.List;
 
 /**

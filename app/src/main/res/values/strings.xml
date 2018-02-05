@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Dream</string>
+    <string name="app_name">梦境接龙</string>
     <string name="new_item">new</string>
     <string name="hint_id">帐号</string>
     <string name="create_id">请输入昵称</string>

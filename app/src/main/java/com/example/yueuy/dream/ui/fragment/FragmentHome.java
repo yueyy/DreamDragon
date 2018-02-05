@@ -41,9 +41,6 @@ public class FragmentHome extends Fragment {
     private StoryRandom mStoryData;
     private SwipeRefreshLayout mRefreshLayout;
     private List<StoryRandom.RandomBean> random;
-    private List<ViewHolder<Integer>> mHolders = new ArrayList<>();
-    private List<Integer> resIdList = new ArrayList<>();
-    private Integer[] resIds = {R.drawable.a,R.drawable.b,R.drawable.c};
 
 
     @Override

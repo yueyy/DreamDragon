@@ -5,6 +5,7 @@ package com.example.yueuy.dream.data.story;
  */
 
 public class Storyc {
+
     private String storyc;
     private int uid;
 
@@ -23,4 +24,5 @@ public class Storyc {
     public void setUid(int uid) {
         this.uid = uid;
     }
+
 }

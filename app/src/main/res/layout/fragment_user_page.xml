@@ -24,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name"
+            android:textSize="18sp"
             android:layout_gravity="center"
             android:textColor="@color/colorMain"/>
 
@@ -50,7 +51,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="60sp"
-            android:src="@color/colorWhite"/>
+            android:src="@color/colorWhite"
+            />
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:layout_width="70sp"
@@ -101,12 +103,17 @@
                 android:id="@+id/user_join_story"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorMain"
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_user_join"
-                android:gravity="center"/>
+                android:gravity="center"
+                />
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -118,12 +125,16 @@
                 android:id="@+id/user_start_story"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:textSize="30sp"
+                android:textColor="@color/colorMain"
+                android:textStyle="bold"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_user_start"
-                android:gravity="center"/>
+                android:gravity="center"
+                />
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -136,7 +147,11 @@
                 android:id="@+id/user_like"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorMain"
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -154,7 +169,10 @@
                 android:id="@+id/user_all_words"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorMain"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

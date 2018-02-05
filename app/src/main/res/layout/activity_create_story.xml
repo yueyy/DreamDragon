@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             android:textColor="@color/colorMain"
             android:text="@string/tv_user_join"
-            android:textSize="20sp"/>
+            android:textSize="18sp"/>
         <ImageButton
             android:id="@+id/btn_publish"
             android:layout_width="wrap_content"
@@ -36,15 +36,19 @@
     </android.support.v7.widget.Toolbar>
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/text_input_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8"
         android:background="@drawable/shape_main_word"
         app:counterEnabled="true"
         app:counterMaxLength="100"
+        app:counterTextAppearance="@color/colorHint"
+        app:counterOverflowTextAppearance="@color/colorMain"
         android:layout_marginTop="5dp"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp">
+        android:layout_marginEnd="5dp"
+        >
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/edt_content"

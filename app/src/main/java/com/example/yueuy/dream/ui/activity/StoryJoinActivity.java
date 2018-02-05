@@ -15,6 +15,7 @@ import com.example.yueuy.dream.data.user.UserStart;
 import com.example.yueuy.dream.net.ServiceGenerator;
 import com.example.yueuy.dream.net.api.UserService;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
+import com.example.yueuy.dream.util.SpaceItemDecoration;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class StoryJoinActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         setToolbar(mToolbar);
         mManager = new LinearLayoutManager(this);
-
+        storyList.addItemDecoration(new SpaceItemDecoration(5));
     }
 
     private void setToolbar(Toolbar toolbar){

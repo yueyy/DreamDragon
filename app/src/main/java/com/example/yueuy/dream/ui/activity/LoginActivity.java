@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     mPreferencesUtils.setUser("username", account);
                     mPreferencesUtils.setUser("token", auth.getToken());
                     mPreferencesUtils.setUser("uid", auth.getUid());
+                    Toast.makeText(getBaseContext(),"请开始你的表演!",Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "check: " + auth.getUid());
                     login(auth.getToken());
                 }else {
@@ -109,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onFailure(Call<UserAuth> call, Throwable t) {
-                Toast.makeText(getBaseContext(),"忘记密码了吗 再注册一个帐号吧=-=",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(),"忘记密码了吗?没事再注册一个帐号吧=-=",Toast.LENGTH_SHORT).show();
 
             }
         });

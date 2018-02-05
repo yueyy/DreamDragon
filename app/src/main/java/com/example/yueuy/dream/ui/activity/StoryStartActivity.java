@@ -21,6 +21,7 @@ import com.example.yueuy.dream.net.ServiceGenerator;
 import com.example.yueuy.dream.net.api.StoryService;
 import com.example.yueuy.dream.net.api.UserService;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
+import com.example.yueuy.dream.util.SpaceItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,8 @@ public class StoryStartActivity extends AppCompatActivity {
         storyList = (RecyclerView)findViewById(R.id.story_list_recycle);
         setSupportActionBar(mToolbar);
         mManager = new LinearLayoutManager(this);
+        storyList.addItemDecoration(new SpaceItemDecoration(5));
+
 //        mToolbar.setTitle("我发起的故事");
     }
     private void initData(int uid){

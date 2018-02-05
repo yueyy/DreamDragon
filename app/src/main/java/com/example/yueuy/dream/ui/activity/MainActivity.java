@@ -1,6 +1,5 @@
 package com.example.yueuy.dream.ui.activity;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -8,45 +7,32 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.adapter.FragmentAdapter;
-import com.example.yueuy.dream.data.Constants;
 import com.example.yueuy.dream.data.story.StoryRandom;
 import com.example.yueuy.dream.data.story.StoryRank;
 import com.example.yueuy.dream.data.user.UserData;
-import com.example.yueuy.dream.net.ServiceGenerator;
-import com.example.yueuy.dream.net.api.StoryService;
-import com.example.yueuy.dream.net.api.UserService;
 import com.example.yueuy.dream.ui.fragment.FragmentHome;
 import com.example.yueuy.dream.ui.fragment.FragmentUser;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 import com.muxistudio.cardbanner.CardBanner;
-import com.muxistudio.cardbanner.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,ViewPager.OnPageChangeListener{
     private static final String TAG = "main";
-    private boolean check = true;
     private Toolbar mToolbar;
     private ImageButton btnHome;
     private ImageButton btnNewStory;
     private ImageButton btnUser;
     private TextView tvHome;
     private TextView tvUser;
-    private CardBanner mBanner;
     private ViewPager mViewPager;
     private FragmentAdapter mFragmentAdapter;
     private SharedPreferencesUtils mPreferencesUtils;

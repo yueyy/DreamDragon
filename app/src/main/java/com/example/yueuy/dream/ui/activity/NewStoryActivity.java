@@ -3,33 +3,23 @@ package com.example.yueuy.dream.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.content.ContextCompat;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.data.story.StoryId;
 import com.example.yueuy.dream.data.story.StoryWrite;
-import com.example.yueuy.dream.net.ServiceGenerator;
 import com.example.yueuy.dream.net.api.StoryService;
-import com.example.yueuy.dream.net.api.UserService;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
-import com.example.yueuy.dream.util.SpaceItemDecoration;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -105,9 +95,6 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v){
         switch (v.getId()){
-            case R.id.edt_content:
-
-                break;
             case R.id.btn_cancel:
                 returnHomePage();
                 break;
@@ -135,7 +122,6 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
         keyword.setKeyword7(setKeyword(key7));
         keyword.setKeyword8(setKeyword(key8));
 
-        StoryService storyService = ServiceGenerator.createService(StoryService.class,"token");
         String token = mPreferencesUtils.getUser("token");
         String uid = String.valueOf(mPreferencesUtils.getUserId("uid"));
         if (token.equals("unknown")) {
@@ -164,11 +150,11 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
                     Log.i(TAG, "onResponse: "+response .body()+response.code());
                     if (response.code()==200) {
                         mPreferencesUtils.setStory("storyid", response.body().getStoryid());
-                        Toast.makeText(getBaseContext(), "您的故事 未完待续...", Toast.LENGTH_SHORT).show();
-                        returnHomePage();
+                        Toast.makeText(getBaseContext(), "你想要怎样的结局", Toast.LENGTH_SHORT).show();
+
                     } else {
                         Log.i(TAG, "onResponse: error!");
-                        Toast.makeText(getBaseContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "服务器好像有点故障...", Toast.LENGTH_SHORT).show();
                     }
                 }
 
