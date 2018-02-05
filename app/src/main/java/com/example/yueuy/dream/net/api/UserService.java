@@ -7,6 +7,7 @@ import com.example.yueuy.dream.data.user.UserId;
 import com.example.yueuy.dream.data.user.UserJoin;
 import com.example.yueuy.dream.data.user.UserStart;
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -14,6 +15,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 /**
@@ -29,12 +31,15 @@ public interface UserService {
     Call<UserAuth> login(@Body User user);
 
     @GET("/api/user/{uid}/")
-    Call<UserData> showMyData(@Header("token") String token);
+    Call<UserData> showMyData(@Path("uid") int uid,
+            @Header("token") String token);
 
     @GET("/api/user/{uid}/join/")
-    Call<UserJoin> showStory(@Header("token")String token);
+    Call<UserJoin> showStory(@Path("uid")int uid,
+                             @Header("token")String token);
 
     @GET("/api/user/{uid}/write/")
-    Call<UserStart> showWrite(@Header("token")String token);
+    Call<UserStart.Start> showWrite(@Path("uid")int uid,
+                                   @Header("token")String token);
 
 }

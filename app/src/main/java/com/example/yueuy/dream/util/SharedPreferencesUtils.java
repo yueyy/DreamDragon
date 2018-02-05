@@ -41,11 +41,19 @@ public class SharedPreferencesUtils {
         editor.apply();
     }
 
+    public void setUser(String key,boolean value) {
+        throwTrouble();
+        SharedPreferences sp = mContext.getSharedPreferences(Constants.USER,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(key, value);
+        editor.apply();
+    }
+
     public String getUser(String key){
         throwTrouble();
         SharedPreferences sp = mContext.getSharedPreferences(Constants.USER,Context.MODE_PRIVATE);
 
-        return sp.getString(key,"");
+        return sp.getString(key,"unknown");
     }
 
     public int getUserId(String key){

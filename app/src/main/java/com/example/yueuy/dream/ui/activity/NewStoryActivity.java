@@ -2,6 +2,7 @@ package com.example.yueuy.dream.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,15 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yueuy.dream.R;
-import com.example.yueuy.dream.adapter.MainWordAdapter;
-import com.example.yueuy.dream.data.story.Keyword;
 import com.example.yueuy.dream.data.story.StoryId;
 import com.example.yueuy.dream.data.story.StoryWrite;
 import com.example.yueuy.dream.net.ServiceGenerator;
@@ -40,15 +41,16 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
 
     private static final String TAG = "new story";
     private Toolbar mToolbar;
-    private EditText edtMainWord;
     private EditText edtContent;
     private ImageButton btnCancel;
     private ImageButton btnPublish;
-    private RecyclerView mRecyclerView;
     private LinearLayoutManager manager;
     private TextView tvLeftWords;
-    private List<Integer> mainList ;
-    private MainWordAdapter mAdapter;
+    private List<Integer> mainList;
+    private LinearLayout mLayout;
+    private TextInputEditText key1,key2,key3,key4,key5,key6,key7,key8;
+    private List<StoryWrite> mStory;
+    private List<StoryWrite.KeywordBean> keywords;
     private SharedPreferencesUtils mPreferencesUtils;
     private static final int MAX_WORDS = 100;
 
@@ -66,15 +68,18 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
         edtContent = (EditText)findViewById(R.id.edt_content);
         btnCancel = (ImageButton)findViewById(R.id.btn_cancel);
         btnPublish = (ImageButton)findViewById(R.id.btn_publish);
-        mRecyclerView = (RecyclerView)findViewById(R.id.main_word_recycle);
-        edtMainWord = (EditText)findViewById(R.id.edt_keyword);
         mToolbar = (Toolbar)findViewById(R.id.toolbar_edit);
-//        tvLeftWords = (TextView)findViewById(R.id.left_words);
-//        tvLeftWords.setText(String.valueOf(MAX_WORDS));
-        setMainWordArray();
+        key1 = (TextInputEditText)findViewById(R.id.edt_keyword);
+        key2 = (TextInputEditText)findViewById(R.id.edt_keyword_2);
+        key3 = (TextInputEditText)findViewById(R.id.edt_keyword_3);
+        key4 = (TextInputEditText)findViewById(R.id.edt_keyword_4);
+        key5 = (TextInputEditText)findViewById(R.id.edt_keyword_5);
+        key6 = (TextInputEditText)findViewById(R.id.edt_keyword_6);
+        key7 = (TextInputEditText)findViewById(R.id.edt_keyword_7);
+        key8 = (TextInputEditText)findViewById(R.id.edt_keyword_8);
+
         btnCancel.setOnClickListener(this);
         btnPublish.setOnClickListener(this);
-        mRecyclerView.setOnClickListener(this);
 
 //        mToolbar.setTitle(R.string.tv_user_join);
 //        setSupportActionBar(mToolbar);
@@ -90,39 +95,13 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
 //        });
     }
 
-    private void changeLeftWords() {
-        edtMainWord.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimaryDark));
-        edtMainWord.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
-//        TextWatcher watcher = new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//                if (s.length()>MAX_WORDS){
-//                    s.delete(MAX_WORDS,s.length());
-//                }else {
-//                    int left = MAX_WORDS - s.length();
-//                    tvLeftWords.setText(String.valueOf(left));
-//                }
-//            }
-//        };
-//        edtContent.addTextChangedListener(watcher);
-    }
+
 
     @Override
     public void onClick(View v){
         switch (v.getId()){
             case R.id.edt_content:
-                changeLeftWords();
+
                 break;
             case R.id.btn_cancel:
                 returnHomePage();
@@ -130,8 +109,6 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btn_publish:
                 publish();
                 break;
-            case R.id.main_word_recycle:
-                setMainWordChange();
             default:
                 break;
         }
@@ -142,51 +119,62 @@ public class NewStoryActivity extends AppCompatActivity implements View.OnClickL
         mPreferencesUtils.init(getBaseContext());
         mPreferencesUtils.setStory("story",content);
 
+        //       添加关键字
+        StoryWrite.KeywordBean keyword = new StoryWrite.KeywordBean();
+        keyword.setKeyword1(setKeyword(key1));
+        keyword.setKeyword2(setKeyword(key2));
+        keyword.setKeyword3(setKeyword(key3));
+        keyword.setKeyword4(setKeyword(key4));
+        keyword.setKeyword5(setKeyword(key5));
+        keyword.setKeyword6(setKeyword(key6));
+        keyword.setKeyword7(setKeyword(key7));
+        keyword.setKeyword8(setKeyword(key8));
+
         StoryService storyService = ServiceGenerator.createService(StoryService.class,"token");
         String token = mPreferencesUtils.getUser("token");
+        String uid = String.valueOf(mPreferencesUtils.getUserId("uid"));
+        if (token.equals("unknown")) {
+            Toast.makeText(getBaseContext(), "请先登录", Toast.LENGTH_SHORT).show();
+        }else {
+            StoryWrite newStory = new StoryWrite();
+            newStory.setStory(content);
+            newStory.setKeyword(keyword);
+            newStory.setUid(uid);
+            Log.i(TAG, "publish: " + mPreferencesUtils.getUserId("uid"));
 
-        StoryWrite newStory = new StoryWrite();
-        newStory.setStory(content);
-        Log.i(TAG, "publish: "+mPreferencesUtils.getUserId("uid"));
-        newStory.setUid(mPreferencesUtils.getUserId("uid"));
-
-        Keyword keyword = new Keyword();
-        keyword.setKeyword1(mPreferencesUtils.getStory("keyword1"));
-
-
-        Call<StoryId> storyDataCall = storyService.newStory(newStory,token);
-        storyDataCall.enqueue(new Callback<StoryId>() {
-            @Override
-            public void onResponse(Call<StoryId> call, Response<StoryId> response) {
-                if (response.isSuccessful()) {
-                    mPreferencesUtils.setStory("storyid", response.body().getStoryid());
-                    Toast.makeText(getBaseContext(), "您的故事 未完待续...", Toast.LENGTH_SHORT).show();
-                    returnHomePage();
-                }else {
-                    Log.i(TAG, "onResponse: error!");
+            Call<StoryId> storyDataCall = storyService.newStory(newStory, token);
+            storyDataCall.enqueue(new Callback<StoryId>() {
+                @Override
+                public void onResponse(Call<StoryId> call, Response<StoryId> response) {
+                    Log.i(TAG, "onResponse: "+response.body()+response.code());
+                    if (response.isSuccessful()) {
+                        mPreferencesUtils.setStory("storyid", response.body().getStoryid());
+                        Toast.makeText(getBaseContext(), "您的故事 未完待续...", Toast.LENGTH_SHORT).show();
+                        returnHomePage();
+                    } else {
+                        Log.i(TAG, "onResponse: error!");
+                        Toast.makeText(getBaseContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<StoryId> call, Throwable t) {
-                Log.i(TAG, "onFailure: ");
-            }
-        });
-
+                @Override
+                public void onFailure(Call<StoryId> call, Throwable t) {
+                    Log.i(TAG, "onFailure: new story ");
+                    Toast.makeText(getBaseContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
-    private void setMainWordArray(){
-        manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(10));
-
-//        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(manager);
+    private String setKeyword(TextInputEditText key){
+        String k = key.getText().toString();
+        if (k.isEmpty()){
+            return "";
+        }else {
+            return k;
+        }
     }
 
-    private void setMainWordChange(){
-
-    }
     private void returnHomePage(){
         Intent i = new Intent(NewStoryActivity.this,MainActivity.class);
         startActivity(i);

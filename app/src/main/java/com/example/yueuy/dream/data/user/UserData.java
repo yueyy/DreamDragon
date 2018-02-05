@@ -5,10 +5,18 @@ package com.example.yueuy.dream.data.user;
  */
 
 public class UserData {
-    private int usa;    //用户参与的所有故事数
-    private int usb;    //用户发起的所有故事数
-    private int userlikenum;      //用户获得点赞数
-    private int userwords;     //用户总字数
+
+    /**
+     * usa : 16
+     * usb : 15
+     * userlikenum : 18
+     * userwords : 261
+     */
+
+    private int usa;
+    private int usb;
+    private int userlikenum;
+    private int userwords;
 
     public int getUsa() {
         return usa;

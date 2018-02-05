@@ -7,37 +7,39 @@ import java.util.List;
  */
 
 public class StoryRank {
-    private List<Rank> rank;
 
-    public List<Rank> getRank() {
+
+    private List<RankBean> rank;
+
+    public List<RankBean> getRank() {
         return rank;
     }
 
-    public void setRank(List<Rank> rank) {
+    public void setRank(List<RankBean> rank) {
         this.rank = rank;
     }
 
-    public class Rank{
-        private String username;
-        private int storyid;
-        private String story;
+    public static class RankBean {
+        /**
+         * keyword : [{"keyword":"公正"},{"keyword":"自由"},{"keyword":"民主"},{"keyword":"富强"},{"keyword":"平等"},{"keyword":"文明"},{"keyword":"和谐"},{"keyword":"法治&"}]
+         * likenum : 7
+         * story : 红红火火红红火火哈哈哈哈红红火火红红火火红红火火红红火火红红火火
+         * storyid : 2
+         * username : 1
+         */
+
         private int likenum;
-        private List<Keyword> keyword;
+        private String story;
+        private int storyid;
+        private String username;
+        private List<KeywordBean> keyword;
 
-        public String getUsername() {
-            return username;
+        public int getLikenum() {
+            return likenum;
         }
 
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public int getStoryid() {
-            return storyid;
-        }
-
-        public void setStoryid(int storyid) {
-            this.storyid = storyid;
+        public void setLikenum(int likenum) {
+            this.likenum = likenum;
         }
 
         public String getStory() {
@@ -48,96 +50,44 @@ public class StoryRank {
             this.story = story;
         }
 
-        public int getLikenum() {
-            return likenum;
+        public int getStoryid() {
+            return storyid;
         }
 
-        public void setLikenum(int likenum) {
-            this.likenum = likenum;
+        public void setStoryid(int storyid) {
+            this.storyid = storyid;
         }
 
-        public List<Keyword> getKeyword() {
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public List<KeywordBean> getKeyword() {
             return keyword;
         }
 
-        public void setKeyword(List<Keyword> keyword) {
+        public void setKeyword(List<KeywordBean> keyword) {
             this.keyword = keyword;
         }
 
-        public class Keyword{
-            private String keyword1;
-            private String keyword2;
-            private String keyword3;
-            private String keyword4;
-            private String keyword5;
-            private String keyword6;
-            private String keyword7;
-            private String keyword8;
+        public static class KeywordBean {
+            /**
+             * keyword : 公正
+             */
 
-            public String getKeyword1() {
-                return keyword1;
+            private String keyword;
+
+            public String getKeyword() {
+                return keyword;
             }
 
-            public void setKeyword1(String keyword1) {
-                this.keyword1 = keyword1;
-            }
-
-            public String getKeyword2() {
-                return keyword2;
-            }
-
-            public void setKeyword2(String keyword2) {
-                this.keyword2 = keyword2;
-            }
-
-            public String getKeyword3() {
-                return keyword3;
-            }
-
-            public void setKeyword3(String keyword3) {
-                this.keyword3 = keyword3;
-            }
-
-            public String getKeyword4() {
-                return keyword4;
-            }
-
-            public void setKeyword4(String keyword4) {
-                this.keyword4 = keyword4;
-            }
-
-            public String getKeyword5() {
-                return keyword5;
-            }
-
-            public void setKeyword5(String keyword5) {
-                this.keyword5 = keyword5;
-            }
-
-            public String getKeyword6() {
-                return keyword6;
-            }
-
-            public void setKeyword6(String keyword6) {
-                this.keyword6 = keyword6;
-            }
-
-            public String getKeyword7() {
-                return keyword7;
-            }
-
-            public void setKeyword7(String keyword7) {
-                this.keyword7 = keyword7;
-            }
-
-            public String getKeyword8() {
-                return keyword8;
-            }
-
-            public void setKeyword8(String keyword8) {
-                this.keyword8 = keyword8;
+            public void setKeyword(String keyword) {
+                this.keyword = keyword;
             }
         }
     }
-
 }

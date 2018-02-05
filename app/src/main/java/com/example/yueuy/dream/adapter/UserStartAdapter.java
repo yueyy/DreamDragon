@@ -6,35 +6,30 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.data.story.StoryData;
+import com.example.yueuy.dream.data.user.UserStart;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yueuy on 18-2-1.
+ * Created by yueuy on 18-2-5.
  */
 
-public class MainWordAdapter extends RecyclerView.Adapter<MainWordAdapter.ViewHolder> {
+public class UserStartAdapter extends RecyclerView.Adapter<UserStartAdapter.ViewHolder> {
 
-    private static final String TAG = "newstory";
     private Context mContext;
     private LayoutInflater mInflater;
     private SharedPreferencesUtils mPreferencesUtils;
-    private List<StoryData.KeywordsBean> mList;
+    private List<UserStart.Start> mList;
 
-    public MainWordAdapter(Context context){
+    public UserStartAdapter(Context context,List<UserStart.Start> story){
         this.mContext = context;
-        this.mInflater = LayoutInflater.from(context);
-        this.mList = new ArrayList<>(8);
-    }
-
-    public MainWordAdapter(Context context,List<StoryData.KeywordsBean> keywords){
-        this.mContext = context;
-        this.mList = keywords;
+        this.mList = story;
     }
 
     @Override
@@ -44,23 +39,26 @@ public class MainWordAdapter extends RecyclerView.Adapter<MainWordAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent , int viewType){
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_keywords_btn,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_story_content,parent,false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position){
-        viewHolder.page.setText(mList.get(position).toString());
+        viewHolder.content.setText(mList.get(position).getStory());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextInputEditText page;
+        TextView content;
+        TextView like,talking;
 
         public ViewHolder(View itemView){
             super(itemView);
-            page = itemView.findViewById(R.id.edt_keyword);
+            content = itemView.findViewById(R.id.main_story_content);
+            like = itemView.findViewById(R.id.story_like);
+            talking = itemView.findViewById(R.id.story_talking);
         }
     }
 }

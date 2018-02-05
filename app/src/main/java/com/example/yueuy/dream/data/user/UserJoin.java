@@ -7,20 +7,24 @@ import java.util.List;
  */
 
 public class UserJoin {
-    private List<Join> join;
+    private List<JoinBean> join;
 
-    public List<Join> getJoin() {
+    public List<JoinBean> getJoin() {
         return join;
     }
 
-    public void setJoin(List<Join> join) {
+    public void setJoin(List<JoinBean> join) {
         this.join = join;
     }
 
-    public class Join{
+    public static class JoinBean {
+        /**
+         * story : 红红火火红红火火哈哈哈哈红红火火红红火火红红火火红红火火红红
+         * storyid : 2
+         */
+
         private String story;
         private int storyid;
-        private int storycid;
 
         public String getStory() {
             return story;
@@ -36,14 +40,6 @@ public class UserJoin {
 
         public void setStoryid(int storyid) {
             this.storyid = storyid;
-        }
-
-        public int getStorycid() {
-            return storycid;
-        }
-
-        public void setStorycid(int storycid) {
-            this.storycid = storycid;
         }
     }
 }

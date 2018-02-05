@@ -93,7 +93,6 @@
                 android:id="@+id/user_join_story"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
@@ -111,7 +110,6 @@
                 android:id="@+id/user_start_story"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
@@ -130,7 +128,6 @@
                 android:id="@+id/user_like"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
@@ -149,7 +146,6 @@
                 android:id="@+id/user_all_words"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"

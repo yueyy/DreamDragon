@@ -29,7 +29,7 @@ public interface StoryService {
     @GET("/api/story/rank/")
     Call<StoryRank> showRank();
 
-    @GET("/api/story/random")
+    @GET("/api/story/random/")
     Call<StoryRandom> showRandom();
 
     @GET("/api/story/{storyid}/")
@@ -39,14 +39,14 @@ public interface StoryService {
     Call<StoryLike> like(@Path("storyid") int storyId,
                          @Header("token") String token);
 
-    @FormUrlEncoded
     @POST("/api/story/write/")
     Call<StoryId> newStory(@Body StoryWrite storyWrite,
                            @Header("token")String token);
 
-    @FormUrlEncoded
+
     @POST("/api/story/{storyid}/continue/")
-    Call<StorycId> continuation(@Body Storyc storyc,
+    Call<StorycId> continuation(@Path("storyid")int storyId,
+                                @Body Storyc storyc,
                                 @Header("token")String token);
 
     @DELETE("/api/story/{storyid}/delete")

@@ -11,9 +11,92 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorWhite">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/story"
+            android:textColor="@color/colorMain"/>
     </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="10dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="10dp"
+        android:background="@drawable/shape_main_word"
+       >
+        <TextView
+            android:id="@+id/story_main_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/story_all_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorWhite"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/story_main_keyword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+        </android.support.v7.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="5dp"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/story_main_like_img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="fitCenter"
+                android:tint="@color/colorHint"
+                android:layout_marginStart="20dp"
+                android:background="#0000"
+                android:src="@drawable/ic_hot"/>
+
+            <TextView
+                android:id="@+id/story_main_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:text="5"/>
+
+            <ImageButton
+                android:id="@+id/story_main_talking_img"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:scaleType="fitCenter"
+                android:tint="@color/colorMain"
+                android:layout_marginStart="5dp"
+                android:background="#0000"
+                android:src="@drawable/tab_home"/>
+
+            <TextView
+                android:id="@+id/story_main_talking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="5dp"
+                android:text="7"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/story_all_recycle"
+        android:id="@+id/story_main_recycle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
@@ -21,8 +104,34 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_main_word">
-        
+
     </android.support.v7.widget.RecyclerView>
-    
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/story_main_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="#0000"
+            android:text="@string/publish"
+            />
+        <EditText
+            android:id="@+id/story_main_continue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_toStartOf="@+id/story_main_send"
+            android:hint="@string/story_write"
+            android:inputType="text"
+            android:textColorHint="@color/colorHint"
+            android:textColor="@color/colorPrimaryDark"
+            />
+    </RelativeLayout>
+
+
 
 </LinearLayout>

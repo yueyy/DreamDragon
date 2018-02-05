@@ -3,6 +3,7 @@ package com.example.yueuy.dream.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -14,11 +15,14 @@ import com.example.yueuy.dream.data.user.User;
 import com.example.yueuy.dream.data.user.UserAuth;
 import com.example.yueuy.dream.net.ServiceGenerator;
 import com.example.yueuy.dream.net.api.UserService;
+import com.example.yueuy.dream.ui.fragment.FragmentUser;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 
 import java.io.IOException;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -87,20 +91,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         User user = new User(account,password);
         UserService userService = ServiceGenerator.createService(UserService.class);
         Call<UserAuth> call = userService.login(user);
-        UserAuth auth = call.execute().body();
-        mPreferencesUtils.setUser("token",auth.getToken());
-        login(auth.hashCode());
+        call.enqueue(new Callback<UserAuth>() {
+            @Override
+            public void onResponse(Call<UserAuth> call, Response<UserAuth> response) {
+                UserAuth auth = response.body();
+                mPreferencesUtils.setUser("token",auth.getToken());
+                mPreferencesUtils.setUser("uid",auth.getUid());
+                Log.i(TAG, "check: "+auth.getUid());
+                login(auth.getToken());
+            }
+
+            @Override
+            public void onFailure(Call<UserAuth> call, Throwable t) {
+
+            }
+        });
+
     }
 
-    private void login(int requestCode){
+    private void login(String token){
         Intent i = new Intent(LoginActivity.this,MainActivity.class);
-        startActivityForResult(i,requestCode);
+        i.putExtra("token",token);
+        startActivity(i);
+//        startActivityForResult(i,requestCode);
         finish();
     }
 
     private void register(){
         Intent i = new Intent(LoginActivity.this,SignUpActivity.class);
-        startActivity(i);
+        startActivityForResult(i,1);
         finish();
     }
+
+
 }

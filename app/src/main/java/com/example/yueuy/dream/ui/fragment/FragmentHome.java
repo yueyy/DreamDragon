@@ -2,6 +2,7 @@ package com.example.yueuy.dream.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.adapter.StoryRecycleAdapter;
 import com.example.yueuy.dream.data.story.StoryData;
 import com.example.yueuy.dream.data.story.StoryRandom;
+import com.example.yueuy.dream.data.story.StoryRank;
 import com.example.yueuy.dream.net.ServiceGenerator;
 import com.example.yueuy.dream.net.api.StoryService;
 import com.example.yueuy.dream.util.SpaceItemDecoration;
@@ -35,7 +37,9 @@ public class FragmentHome extends Fragment {
     private StoryRecycleAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mManager;
-    private List<StoryRandom> mStoryData;
+    private StoryRandom mStoryData;
+    private SwipeRefreshLayout mRefreshLayout;
+    private List<StoryRandom.RandomBean> random;
 
     private List<ViewHolder<Integer>> mHolders = new ArrayList<>();
     private List<Integer> resIdList = new ArrayList<>();
@@ -46,14 +50,21 @@ public class FragmentHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_home_page,null);
         mRecyclerView = view.findViewById(R.id.story_recycle);
+        mRefreshLayout = view.findViewById(R.id.refresh_view);
         mManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mManager);
-        mStoryData = initData();
-        mAdapter = new StoryRecycleAdapter(getContext(),mStoryData);
-        mRecyclerView.setAdapter(mAdapter);
+        refresh();
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (mRefreshLayout.isRefreshing()){
+
+                }else {
+                    refresh();
+                }
+            }
+        });
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(5));
-
-
         return view;
     }
 
@@ -62,25 +73,20 @@ public class FragmentHome extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    private List<StoryRandom> initData(){
-        List<StoryData> test = new ArrayList<>();
-        StoryData story = new StoryData();
-        story.setStory("在很久很久以前");
-        test.add(story);
-        StoryData storya = new StoryData();
-        storya.setStory("有一个人啊");
-        test.add(storya);
-        StoryData storyb = new StoryData();
-        story.setStory("他想吃鸡");
-        test.add(storyb);
-
-        mStoryData = new ArrayList<>();
+    private void refresh(){
         StoryService storyService = ServiceGenerator.createService(StoryService.class);
         storyService.showRandom().enqueue(new Callback<StoryRandom>() {
             @Override
             public void onResponse(Call<StoryRandom> call, Response<StoryRandom> response) {
-                StoryRandom random = response.body();
-                mStoryData.add(random);
+                StoryRandom list = response.body();
+                try {
+                    random = list.getRandom();
+                    mAdapter = new StoryRecycleAdapter(getContext(),random);
+                    mRecyclerView.setAdapter(mAdapter);
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+
             }
 
             @Override
@@ -88,9 +94,7 @@ public class FragmentHome extends Fragment {
 
             }
         });
-        return mStoryData;
     }
-
 }
 //        for (int i = 0; i < 3; i++) {
 //            ViewHolder<Integer> viewHolder = new ViewHolder<Integer>() {

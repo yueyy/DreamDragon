@@ -17,9 +17,10 @@ public class UserStart {
         this.start = start;
     }
 
-    public class Start{
+    public static class Start{
         private int storyid;
         private String story;
+        private List<Start> start;
 
         public int getStoryid() {
             return storyid;
@@ -35,6 +36,14 @@ public class UserStart {
 
         public void setStory(String story) {
             this.story = story;
+        }
+
+        public List<Start> getStart() {
+            return start;
+        }
+
+        public void setStart(List<Start> start) {
+            this.start = start;
         }
     }
 

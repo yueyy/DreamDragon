@@ -6,7 +6,7 @@ package com.example.yueuy.dream.data.story;
 
 public class Storyc {
     private String storyc;
-    private int uid;
+    private String uid;
 
     public String getStoryc() {
         return storyc;
@@ -16,11 +16,11 @@ public class Storyc {
         this.storyc = storyc;
     }
 
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.List;
@@ -15,9 +16,12 @@ import java.util.List;
 public class FragmentAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> mFragmentList;
+    private List<String> tagList;
+    private FragmentManager fm;
 
     public FragmentAdapter(FragmentManager fm, List<Fragment> list){
         super(fm);
+        this.fm = fm;
         this.mFragmentList = list;
     }
 
@@ -30,4 +34,5 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     public int getCount(){
         return mFragmentList.size();
     }
+
 }
