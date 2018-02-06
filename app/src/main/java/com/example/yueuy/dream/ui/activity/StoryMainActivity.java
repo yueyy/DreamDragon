@@ -3,6 +3,8 @@ package com.example.yueuy.dream.ui.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,15 +14,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.adapter.StoryDataAdapter;
 import com.example.yueuy.dream.adapter.StoryKeyAdapter;
 import com.example.yueuy.dream.data.story.StoryData;
-import com.example.yueuy.dream.data.story.StoryId;
 import com.example.yueuy.dream.data.story.StoryLike;
 import com.example.yueuy.dream.data.story.Storyc;
 import com.example.yueuy.dream.data.story.StorycId;
@@ -28,19 +27,12 @@ import com.example.yueuy.dream.net.ServiceGenerator;
 import com.example.yueuy.dream.net.api.StoryService;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 import com.example.yueuy.dream.util.SpaceItemDecoration;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
 
 /**
  * Created by yueuy on 18-2-3.
@@ -57,6 +49,7 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
     private RecyclerView mStorycRecycle;
     private StoryData mStoryData;
     private StoryDataAdapter mAdapter;
+    private SwipeRefreshLayout mRefreshLayout;
     private EditText mEditText;
     private Button mSend;
     private ImageButton mLike;
@@ -83,11 +76,29 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
         tvLike = (TextView)findViewById(R.id.story_main_like);
         mEditText = (EditText)findViewById(R.id.story_main_continue);
         mSend = (Button)findViewById(R.id.story_main_send);
+        mRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refresh_story_c);
         mPreferencesUtils = new SharedPreferencesUtils();
         mManager = new LinearLayoutManager(this);
         mLayoutManager = new LinearLayoutManager(this);
         mLike.setOnClickListener(this);
         mSend.setOnClickListener(this);
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        initData(getStoryId());
+                        refresh(mStoryData);
+                        if (mRefreshLayout.isRefreshing()){
+                            mRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                },3000);
+
+            }
+        });
+        mStorycRecycle.addItemDecoration(new SpaceItemDecoration(5));
     }
 
     private void initData(int storyid){
@@ -115,10 +126,11 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
                         mKeyRecycle.setAdapter(mKeyAdapter);
                         //    续写recycleView
                         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        mStorycRecycle.setLayoutManager(mLayoutManager);
-                        mAdapter = new StoryDataAdapter(getBaseContext(), mStoryData.getStoryc());
-                        mStorycRecycle.addItemDecoration(new SpaceItemDecoration(5));
-                        mStorycRecycle.setAdapter(mAdapter);
+//                        mStorycRecycle.setLayoutManager(mLayoutManager);
+//                        mAdapter = new StoryDataAdapter(getBaseContext(), mStoryData.getStoryc());
+//                        mStorycRecycle.addItemDecoration(new SpaceItemDecoration(5));
+//                        mStorycRecycle.setAdapter(mAdapter);
+                        refresh(mStoryData);
                     }catch (NullPointerException e){
                         e.printStackTrace();
                     }
@@ -197,6 +209,13 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
         Intent intent = getIntent();
         int storyid = intent.getIntExtra("storyid",0);
         return storyid;
+    }
+
+    private void refresh(StoryData storyData){
+        mStorycRecycle.setLayoutManager(mLayoutManager);
+        mAdapter = new StoryDataAdapter(getBaseContext(), storyData.getStoryc());
+        mStorycRecycle.addItemDecoration(new SpaceItemDecoration(5));
+        mStorycRecycle.setAdapter(mAdapter);
     }
 
     @Override

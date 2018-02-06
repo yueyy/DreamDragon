@@ -97,17 +97,24 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/story_continue_recycle"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_story_c"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/shape_main_word">
+        android:layout_marginTop="10dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/story_continue_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:background="@drawable/shape_main_word">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
