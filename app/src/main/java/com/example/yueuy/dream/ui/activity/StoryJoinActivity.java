@@ -1,6 +1,5 @@
 package com.example.yueuy.dream.ui.activity;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,11 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.example.yueuy.dream.R;
-import com.example.yueuy.dream.adapter.UserJoinAdapter;
-import com.example.yueuy.dream.adapter.UserStartAdapter;
+import com.example.yueuy.dream.adapter.user.UserJoinAdapter;
 import com.example.yueuy.dream.data.user.UserJoin;
-import com.example.yueuy.dream.data.user.UserStart;
-import com.example.yueuy.dream.net.ServiceGenerator;
 import com.example.yueuy.dream.net.api.UserService;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 import com.example.yueuy.dream.util.SpaceItemDecoration;

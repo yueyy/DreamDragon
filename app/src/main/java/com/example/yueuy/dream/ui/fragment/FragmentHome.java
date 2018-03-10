@@ -12,16 +12,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.yueuy.dream.R;
-import com.example.yueuy.dream.adapter.StoryRecycleAdapter;
-import com.example.yueuy.dream.data.story.StoryData;
+import com.example.yueuy.dream.adapter.story.StoryRecycleAdapter;
 import com.example.yueuy.dream.data.story.StoryRandom;
-import com.example.yueuy.dream.data.story.StoryRank;
 import com.example.yueuy.dream.net.ServiceGenerator;
 import com.example.yueuy.dream.net.api.StoryService;
 import com.example.yueuy.dream.util.SpaceItemDecoration;
-import com.muxistudio.cardbanner.ViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -50,7 +46,10 @@ public class FragmentHome extends Fragment {
         mRefreshLayout = view.findViewById(R.id.refresh_view);
         mManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mManager);
+
         refresh();
+
+//        下拉刷新
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

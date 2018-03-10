@@ -1,4 +1,4 @@
-package com.example.yueuy.dream.adapter;
+package com.example.yueuy.dream.adapter.story;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.example.yueuy.dream.R;
 import com.example.yueuy.dream.data.story.StoryData;
-import com.example.yueuy.dream.data.story.StoryWrite;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 
 import java.util.List;
@@ -18,14 +17,14 @@ import java.util.List;
  * Created by yueuy on 18-2-5.
  */
 
-public class StoryKeyAdapter extends RecyclerView.Adapter<StoryKeyAdapter.ViewHolder> {
+public class StoryContentAdapter extends RecyclerView.Adapter<StoryContentAdapter.ViewHolder> {
 
 
-    private List<StoryData.KeywordsBean> mDataList;
+    private List<StoryData.StorycBean> mDataList;
     private LayoutInflater mInflater;
     private SharedPreferencesUtils mPreferencesUtils;
 
-    public StoryKeyAdapter(Context context, List<StoryData.KeywordsBean> dataList) {
+    public StoryContentAdapter(Context context, List<StoryData.StorycBean> dataList) {
         this.mInflater = LayoutInflater.from(context);
         this.mDataList = dataList;
     }
@@ -37,25 +36,28 @@ public class StoryKeyAdapter extends RecyclerView.Adapter<StoryKeyAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent , int viewType){
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_keywords,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_stoyc,parent,false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position){
-        viewHolder.storyKey.setText(mDataList.get(position).getKeyword());
+        viewHolder.storyContent.setText(mDataList.get(position).getStoryc());
+        viewHolder.storyUsername.setText(mDataList.get(position).getUsernamec());
     }
 
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView storyKey;
+        private TextView storyContent;
+        private TextView storyUsername;
 
         public ViewHolder(View view){
             super(view);
-            storyKey = view.findViewById(R.id.main_keyword);
+            storyContent = view.findViewById(R.id.main_storyc_content);
+            storyUsername = view.findViewById(R.id.main_storyc_username);
         }
     }
 }

@@ -16,7 +16,6 @@ import com.example.yueuy.dream.data.user.User;
 import com.example.yueuy.dream.data.user.UserAuth;
 import com.example.yueuy.dream.net.ServiceGenerator;
 import com.example.yueuy.dream.net.api.UserService;
-import com.example.yueuy.dream.ui.fragment.FragmentUser;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 
 import java.io.IOException;

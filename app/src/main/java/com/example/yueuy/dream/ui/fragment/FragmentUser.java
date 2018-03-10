@@ -14,19 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yueuy.dream.R;
-import com.example.yueuy.dream.adapter.FragmentAdapter;
 import com.example.yueuy.dream.data.user.UserData;
-import com.example.yueuy.dream.net.ServiceGenerator;
-import com.example.yueuy.dream.net.api.StoryService;
 import com.example.yueuy.dream.net.api.UserService;
 import com.example.yueuy.dream.ui.activity.LoginActivity;
 import com.example.yueuy.dream.ui.activity.StoryJoinActivity;
-import com.example.yueuy.dream.ui.activity.StoryMainActivity;
 import com.example.yueuy.dream.ui.activity.StoryStartActivity;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

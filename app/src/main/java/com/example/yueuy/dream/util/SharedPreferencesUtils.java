@@ -2,11 +2,8 @@ package com.example.yueuy.dream.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.provider.ContactsContract;
 
 import com.example.yueuy.dream.data.Constants;
-
-import java.util.Map;
 
 /**
  * Created by yueuy on 18-2-1.

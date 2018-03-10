@@ -1,4 +1,4 @@
-package com.example.yueuy.dream.adapter;
+package com.example.yueuy.dream.adapter.story;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +52,7 @@ public class StoryRecycleAdapter extends RecyclerView.Adapter<StoryRecycleAdapte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent ,int viewType){
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_story_random,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_story,parent,false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
@@ -70,7 +71,7 @@ public class StoryRecycleAdapter extends RecyclerView.Adapter<StoryRecycleAdapte
 
             //      点击查看故事详情
             final int storyid = mStoryData.get(position).getStoryid();
-            viewHolder.content.setOnClickListener(new View.OnClickListener() {
+            viewHolder.item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(v.getContext(),StoryMainActivity.class);
@@ -114,16 +115,18 @@ public class StoryRecycleAdapter extends RecyclerView.Adapter<StoryRecycleAdapte
 
         TextView content,keyword,likenum,talkingnum;
         ImageButton like,talking;
+        LinearLayout item;
 
 
         public ViewHolder(View itemView){
             super(itemView);
-            content = itemView.findViewById(R.id.random_content);
-            keyword = itemView.findViewById(R.id.random_keyword);
-            likenum = itemView.findViewById(R.id.random_like);
-            talkingnum = itemView.findViewById(R.id.random_talking);
-            like = itemView.findViewById(R.id.random_like_img);
-            talking = itemView.findViewById(R.id.random_talking_img);
+            content = itemView.findViewById(R.id.story_content);
+            like = itemView.findViewById(R.id.story_like_img);           // 点赞
+            talking = itemView.findViewById(R.id.story_talking_img);     // 评论
+              keyword = itemView.findViewById(R.id.story_keyword);
+            likenum = itemView.findViewById(R.id.story_like);            // 被点赞数
+            talkingnum = itemView.findViewById(R.id.story_talking);      // 被续写数
+            item = itemView.findViewById(R.id.ll_story);
         }
     }
 }

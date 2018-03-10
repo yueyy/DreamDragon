@@ -17,8 +17,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.yueuy.dream.R;
-import com.example.yueuy.dream.adapter.StoryDataAdapter;
-import com.example.yueuy.dream.adapter.StoryKeyAdapter;
+import com.example.yueuy.dream.adapter.story.StoryContentAdapter;
+import com.example.yueuy.dream.adapter.story.StoryKeyAdapter;
 import com.example.yueuy.dream.data.story.StoryData;
 import com.example.yueuy.dream.data.story.StoryLike;
 import com.example.yueuy.dream.data.story.Storyc;
@@ -48,7 +48,7 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
     private RecyclerView mKeyRecycle;
     private RecyclerView mStorycRecycle;
     private StoryData mStoryData;
-    private StoryDataAdapter mAdapter;
+    private StoryContentAdapter mAdapter;
     private SwipeRefreshLayout mRefreshLayout;
     private EditText mEditText;
     private Button mSend;
@@ -127,7 +127,7 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
                         //    续写recycleView
                         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 //                        mStorycRecycle.setLayoutManager(mLayoutManager);
-//                        mAdapter = new StoryDataAdapter(getBaseContext(), mStoryData.getStoryc());
+//                        mAdapter = new StoryContentAdapter(getBaseContext(), mStoryData.getStoryc());
 //                        mStorycRecycle.addItemDecoration(new SpaceItemDecoration(5));
 //                        mStorycRecycle.setAdapter(mAdapter);
                         refresh(mStoryData);
@@ -213,7 +213,7 @@ public class StoryMainActivity extends AppCompatActivity implements View.OnClick
 
     private void refresh(StoryData storyData){
         mStorycRecycle.setLayoutManager(mLayoutManager);
-        mAdapter = new StoryDataAdapter(getBaseContext(), storyData.getStoryc());
+        mAdapter = new StoryContentAdapter(getBaseContext(), storyData.getStoryc());
         mStorycRecycle.addItemDecoration(new SpaceItemDecoration(5));
         mStorycRecycle.setAdapter(mAdapter);
     }

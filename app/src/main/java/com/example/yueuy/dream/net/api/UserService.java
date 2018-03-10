@@ -7,8 +7,6 @@ import com.example.yueuy.dream.data.user.UserId;
 import com.example.yueuy.dream.data.user.UserJoin;
 import com.example.yueuy.dream.data.user.UserStart;
 
-import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -16,7 +14,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.QueryMap;
 
 /**
  * Created by yueuy on 18-1-30.

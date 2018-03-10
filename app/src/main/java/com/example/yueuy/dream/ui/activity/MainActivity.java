@@ -19,7 +19,6 @@ import com.example.yueuy.dream.data.user.UserData;
 import com.example.yueuy.dream.ui.fragment.FragmentHome;
 import com.example.yueuy.dream.ui.fragment.FragmentUser;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
-import com.muxistudio.cardbanner.CardBanner;
 
 import java.util.ArrayList;
 import java.util.List;

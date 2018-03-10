@@ -1,29 +1,18 @@
 package com.example.yueuy.dream.ui.activity;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.example.yueuy.dream.R;
-import com.example.yueuy.dream.adapter.StoryRecycleAdapter;
-import com.example.yueuy.dream.adapter.UserStartAdapter;
-import com.example.yueuy.dream.data.story.StoryRandom;
-import com.example.yueuy.dream.data.story.Storyc;
-import com.example.yueuy.dream.data.story.StorycId;
-import com.example.yueuy.dream.data.user.User;
+import com.example.yueuy.dream.adapter.user.UserStartAdapter;
 import com.example.yueuy.dream.data.user.UserStart;
-import com.example.yueuy.dream.net.ServiceGenerator;
-import com.example.yueuy.dream.net.api.StoryService;
 import com.example.yueuy.dream.net.api.UserService;
 import com.example.yueuy.dream.util.SharedPreferencesUtils;
 import com.example.yueuy.dream.util.SpaceItemDecoration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -67,7 +56,6 @@ public class StoryStartActivity extends AppCompatActivity {
         mManager = new LinearLayoutManager(this);
         storyList.addItemDecoration(new SpaceItemDecoration(5));
 
-//        mToolbar.setTitle("我发起的故事");
     }
     private void initData(int uid){
         Retrofit retrofit = new Retrofit.Builder()

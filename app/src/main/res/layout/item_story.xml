@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:orientation="vertical"
-                android:background="@drawable/shape_main_word">
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/shape_main_word">
 
 
     <LinearLayout
+        android:id="@+id/ll_story"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -20,7 +21,7 @@
             android:src="@drawable/hamster2"
             />
         <TextView
-            android:id="@+id/random_content"
+            android:id="@+id/story_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -43,7 +44,7 @@
         android:layout_alignParentBottom="true">
 
         <TextView
-            android:id="@+id/random_keyword"
+            android:id="@+id/story_keyword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -55,7 +56,7 @@
             android:background="@drawable/shape_keyword"/>
 
         <ImageButton
-            android:id="@+id/random_like_img"
+            android:id="@+id/story_like_img"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:scaleType="fitCenter"
@@ -64,15 +65,15 @@
             android:src="@drawable/ic_hot"/>
 
         <TextView
-            android:id="@+id/random_like"
+            android:id="@+id/story_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="5dp"
-            android:text="5"/>
+            />
 
         <ImageButton
-            android:id="@+id/random_talking_img"
+            android:id="@+id/story_talking_img"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:scaleType="fitCenter"
@@ -82,13 +83,13 @@
             android:src="@drawable/tab_home"/>
 
         <TextView
-            android:id="@+id/random_talking"
+            android:id="@+id/story_talking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="5dp"
-            android:text="0"/>
+            />
 
     </LinearLayout>
 

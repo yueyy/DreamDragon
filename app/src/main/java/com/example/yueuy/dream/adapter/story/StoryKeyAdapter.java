@@ -1,4 +1,4 @@
-package com.example.yueuy.dream.adapter;
+package com.example.yueuy.dream.adapter.story;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -17,14 +17,14 @@ import java.util.List;
  * Created by yueuy on 18-2-5.
  */
 
-public class StoryDataAdapter extends RecyclerView.Adapter<StoryDataAdapter.ViewHolder> {
+public class StoryKeyAdapter extends RecyclerView.Adapter<StoryKeyAdapter.ViewHolder> {
 
 
-    private List<StoryData.StorycBean> mDataList;
+    private List<StoryData.KeywordsBean> mDataList;
     private LayoutInflater mInflater;
     private SharedPreferencesUtils mPreferencesUtils;
 
-    public StoryDataAdapter(Context context, List<StoryData.StorycBean> dataList) {
+    public StoryKeyAdapter(Context context, List<StoryData.KeywordsBean> dataList) {
         this.mInflater = LayoutInflater.from(context);
         this.mDataList = dataList;
     }
@@ -36,28 +36,25 @@ public class StoryDataAdapter extends RecyclerView.Adapter<StoryDataAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent , int viewType){
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_stoyc,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_keywords,parent,false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position){
-        viewHolder.storyContent.setText(mDataList.get(position).getStoryc());
-        viewHolder.storyUsername.setText(mDataList.get(position).getUsernamec());
+        viewHolder.storyKey.setText(mDataList.get(position).getKeyword());
     }
 
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView storyContent;
-        private TextView storyUsername;
+        private TextView storyKey;
 
         public ViewHolder(View view){
             super(view);
-            storyContent = view.findViewById(R.id.main_storyc_content);
-            storyUsername = view.findViewById(R.id.main_storyc_username);
+            storyKey = view.findViewById(R.id.main_keyword);
         }
     }
 }
